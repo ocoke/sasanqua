@@ -74,7 +74,17 @@ export default eventHandler(async (event) => {
 
     // get site data
 
-    const siteData: EditSiteData = await storage.getItem("site:" + id)
+    // const siteData: EditSiteData = await storage.getItem("site:" + id)
+
+    const siteData: EditSiteData = await getCachedSite(id).catch(() => {
+        return {
+            name: "",
+            description: "",
+            domain: "",
+            features: {},
+        }
+    })
+
     const siteResult: CollectedSiteData = await storage.getItem("data:" + id)
 
     const uniqueId = (isUuid(uid) ? uid : uuid()) || uuid()
