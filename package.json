@@ -1,21 +1,27 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "prepare": "nitropack prepare",
     "dev": "nitropack dev",
     "build": "nitropack build",
-    "preview": "node .output/server/index.mjs"
+    "preview": "node .output/server/index.mjs",
+    "build-client": "rollup -c"
   },
   "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/ua-parser-js": "^0.7.39",
     "@vercel/kv": "^1.0.1",
     "geoip-lite": "^1.4.9",
     "jsonwebtoken": "^9.0.2",
     "nitropack": "latest",
     "request-ip": "^3.3.0",
+    "rollup": "^4.9.1",
     "ua-parser-js": "^1.0.37",
     "unstorage": "^1.10.1",
     "uuid": "^9.0.1",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "web-vitals": "^3.5.1"
   }
 }

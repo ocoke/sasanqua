@@ -8,6 +8,7 @@ interface CollectData {
         screen: number[],
         title: string,
         url: string,
+        query: string,
     },
     speed: {
         FCP: number,
