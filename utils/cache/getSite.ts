@@ -12,10 +12,7 @@ export const getCachedSite = cachedFunction(async (id: string) => {
 
     const data: EditSiteData = await storage.getItem("site:" + id)
 
-    return {
-        id,
-        site: data,
-    }
+    return data
 
   }, {
     // cached 1 hour

@@ -1,5 +1,5 @@
 import { UAParser } from 'ua-parser-js'
-import { uuid, isUuid } from "uuidv4"
+import { v4 as uuid, validate as isUuid } from "uuid"
 interface CollectData {
     data: {
         hostname: string,
@@ -34,7 +34,7 @@ interface UaData {
         name: string,
         version: string,
     },
-    mobile: boolean,
+    device: string,
 }
 interface EditSiteData {
     name: string,
@@ -50,6 +50,9 @@ interface CollectedSiteData {
         data: CollectData,
         geo: GeoIp,
         ua: UaData,
+        sid: string,
+        visitTime: number,
+        date: number,
     }[],
 }
 
@@ -85,7 +88,7 @@ export default eventHandler(async (event) => {
         }
     })
 
-    const siteResult: CollectedSiteData = await storage.getItem("data:" + id)
+    const siteResult: CollectedSiteData = (await storage.getItem("data:" + id)) || {}
 
     const uniqueId = (isUuid(uid) ? uid : uuid()) || uuid()
 
@@ -95,9 +98,10 @@ export default eventHandler(async (event) => {
         geo: geoip,
         ua: ua,
         sid: uuid(),
-        visitTime: 0,
+        visitTime: new Date().getTime(),
         date: new Date().getTime(),
     }
+
 
     if (siteData.features.speedInsights) {
         // thisData.data.speed.score = await getSpeedScore(thisData.data.speed)
@@ -120,10 +124,7 @@ export default eventHandler(async (event) => {
         } else {
             siteResult[uniqueId] = [thisData]
         }
-    } else {
-        siteResult[uniqueId] = [thisData]
     }
-
     // save data
     await storage.setItem("data:" + id, siteResult)
 

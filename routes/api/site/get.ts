@@ -1,5 +1,5 @@
 // get site data
-import { isUuid } from "uuidv4"
+import { validate as isUuid } from "uuid"
 interface EditSiteData {
     name: string,
     description: string,

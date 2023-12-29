@@ -15,6 +15,7 @@
     "request-ip": "^3.3.0",
     "ua-parser-js": "^1.0.37",
     "unstorage": "^1.10.1",
+    "uuid": "^9.0.1",
     "uuidv4": "^6.2.13"
   }
 }
