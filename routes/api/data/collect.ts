@@ -86,6 +86,7 @@ export default eventHandler(async (event) => {
         ua: ua,
         sid: uuid(),
         visitTime: 0,
+        date: new Date().getTime(),
     }
 
     if (siteData.features.speedInsights) {
