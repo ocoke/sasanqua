@@ -4,9 +4,10 @@
   "scripts": {
     "prepare": "nitropack prepare",
     "dev": "nitropack dev",
-    "build": "rollup-c && nitropack build",
+    "build": "rollup -c && nitropack build",
     "preview": "node .output/server/index.mjs",
-    "build-client": "rollup -c"
+    "build-client": "rollup -c",
+    "build-server": "nitropack build"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
