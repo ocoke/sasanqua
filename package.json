@@ -4,10 +4,13 @@
   "scripts": {
     "prepare": "nitropack prepare",
     "dev": "nitropack dev",
-    "build": "rollup -c && nitropack build",
+    "build": "rollup -c && vite build && nitropack build",
     "preview": "node .output/server/index.mjs",
     "build-client": "rollup -c",
-    "build-server": "nitropack build"
+    "build-server": "nitropack build",
+    "dev-dash": "vite",
+    "build-dash": "vite build",
+    "preview-dash": "vite preview"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -23,6 +26,15 @@
     "unstorage": "^1.10.1",
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13",
+    "vite": "^5.0.10",
     "web-vitals": "^3.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5"
   }
 }
