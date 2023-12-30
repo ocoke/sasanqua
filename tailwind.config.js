@@ -1,10 +1,16 @@
+import colors from 'tailwindcss/colors'
 export default {
     content: [
-      "./index.html",
-      "./src/**/*.{vue,js,ts,jsx,tsx}",
+      "./dash/index.html",
+      "./dash/**/*.{vue,js,ts,jsx,tsx}",
     ],
-    theme: {
-      extend: {},
-    },
     plugins: [],
+    theme: {
+      extend: {
+        colors: {
+          primary: colors.blue,
+        }
+      }
+    },
+    darkMode: 'class'
 }
