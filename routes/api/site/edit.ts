@@ -13,7 +13,7 @@ interface ReqSiteData {
     data: EditSiteData,
 }
 interface ListData {
-    [key: string]: string,
+    [key: string]: string[],
 }
 
 export default eventHandler(async (event) => {
@@ -68,7 +68,7 @@ export default eventHandler(async (event) => {
     
     const listData: ListData = (await storage.getItem("site:list") || {})
 
-    listData[id] = siteData.name
+    listData[id] = [siteData.name, siteData.domain]
 
     await storage.setItem("site:list", listData)
 

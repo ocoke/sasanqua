@@ -77,7 +77,7 @@ const toggleSidebarMobile = () => {
                                     <span class="ml-3" sidebar-toggle-item>Websites</span>
                                 </router-link>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <router-link to="/reports"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
                                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -89,7 +89,7 @@ const toggleSidebarMobile = () => {
                                     </svg>
                                     <span class="ml-3" sidebar-toggle-item>Reports</span>
                                 </router-link>
-                            </li>
+                            </li> -->
                             <li>
                                 <router-link to="/settings"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
@@ -121,7 +121,7 @@ const toggleSidebarMobile = () => {
             </div>
         </aside>
 
-        <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop" ref="sidebarBackdrop"></div>
+        <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop" ref="sidebarBackdrop" @click="toggleSidebarMobile"></div>
 
         <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
             <main>

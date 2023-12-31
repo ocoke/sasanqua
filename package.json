@@ -17,6 +17,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@types/ua-parser-js": "^0.7.39",
     "@vercel/kv": "^1.0.1",
+    "blueimp-md5": "^2.19.0",
     "geoip-lite": "^1.4.9",
     "jsonwebtoken": "^9.0.2",
     "nitropack": "latest",
