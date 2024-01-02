@@ -30,7 +30,7 @@ const collectData = {
 
 // send data
 setTimeout(() => {
-    const reqUrl = `${serverUrl || ''}/api/collect`
+    const reqUrl = `${serverUrl || ''}/api/data/collect`
     const uid = localStorage.getItem('sasanqua_uid') || null
     const res = fetch(reqUrl, {
         method: 'POST',
@@ -58,4 +58,20 @@ if (enableSpeed) {
 
 if (enableVisitingTime) {
     // interval, ping
+    const visitingTimeInterval = setInterval(() => {
+        if (navigator.sendBeacon) {
+            // use sendBeacon
+            navigator.sendBeacon(`${serverUrl || ''}/api/data/ping?id=${siteId}&sid=${window.SASANQUA_PAGE_SID}&uid=${localStorage.getItem('sasanqua_uid') || null}`, new Blob([]))
+        } else {
+            // use fetch
+            fetch(`${serverUrl || ''}/api/data/ping?id=${siteId}&sid=${window.SASANQUA_PAGE_SID}&uid=${localStorage.getItem('sasanqua_uid') || null}`, {
+                method: 'GET',
+                mode: 'cors',
+            })
+        }
+    }, 1000 * 20)
+    // when page change, clear interval
+    window.addEventListener('beforeunload', () => {
+        clearInterval(visitingTimeInterval)
+    })
 }

@@ -57,9 +57,9 @@ interface EditSiteData {
 
 export default eventHandler(async (event) => {
     // get uid from request headers
-    const uid = getHeader(event, 'x-sasanqua-id')
+    // const uid = getHeader(event, 'x-sasanqua-id')
     // get site id from request body
-    const { id, sid } = await getQuery(event)
+    const { id, sid, uid } = await getQuery(event)
     // check if id is valid
     if (!id || !isUuid(id) || !sid || !isUuid(sid) || !uid || !isUuid(uid)) {
         return {
