@@ -7,6 +7,8 @@
 
 The rule for naming our API routes is: `/api/[category]/[action]`.
 
+Sasanqua uses Nitro to run and collect data at the edge. It can be compatible with multiple platforms. When you're building Sasanqua to deploy, you will need to run `yarn && yarn build` to install the dependencies and build the script, dashboard, and server separately.
+
 ### User
 
 - Before you start, you will need to sign up (`/api/user/signup`) for an account for Sasanqua. You need to provide your username and password, this action will return you a token that is in JWT format.

@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+// vite config file for dash/
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
@@ -12,5 +14,8 @@ export default defineConfig({
           '@': fileURLToPath(new URL('./dash/src', import.meta.url))
         }
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    test: {
+
+    }
 })
