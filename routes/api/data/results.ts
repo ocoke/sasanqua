@@ -9,7 +9,7 @@ export default eventHandler(async (event) => {
         }
     }
     const token = authorization.substring(7)
-    const result = checkUserToken(token)
+    const result = await checkUserToken(token)
     if (!result) {
         return {
             code: 401,
@@ -129,6 +129,9 @@ export default eventHandler(async (event) => {
         });
 
         response['visitor'] = uniqueVisitors.size;
+    }
+    if (queries.includes('visit')) {
+        response['visit'] = filteredData.length;
     }
 
     return {

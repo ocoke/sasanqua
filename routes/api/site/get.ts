@@ -19,7 +19,7 @@ export default eventHandler(async (event) => {
         }
     }
     const token = authorization.substring(7)
-    const result = checkUserToken(token)
+    const result = await checkUserToken(token)
     if (!result) {
         return {
             code: 401,

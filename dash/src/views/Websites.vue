@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
 import { ref } from 'vue'
-
-
 const router = useRouter()
 const first5Websites = ref([])
 const fetchResults = ref({})
-
 setTimeout(() => {
     fetch('/api/site/list', {
         method: 'POST',
@@ -25,25 +22,22 @@ setTimeout(() => {
         }
     })
 }, 100);
-
 </script>
-
 <template>
-<div class="w-full max-w-3xl mx-auto">
-        <p class="text-3xl text-gray-900 dark:text-white mb-6 font-bold">Dashboard</p>
+    <div class="w-full max-w-3xl mx-auto">
+        <p class="text-3xl text-gray-900 dark:text-white mb-6 font-bold">Websites</p>
     </div>
-
-<div class="w-full mx-auto max-w-md p-4 bg-white border border-gray-200 rounded-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex items-center justify-between mb-4">
+    <div class="w-full mx-auto max-w-3xl bg-white border border-gray-200 rounded-lg px-6 py-1 dark:bg-gray-800 dark:border-gray-700">
+    <!-- <div class="flex items-center justify-between mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Websites</h5>
         <router-link to="/websites" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
             View all
         </router-link>
-   </div>
+   </div> -->
    <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" v-if="fetchResults.data">
             <li class="py-3 sm:py-4" v-for="i in first5Websites">
-                <div class="flex items-center ">
+                <div class="flex items-center">
                     <div class="flex-shrink-0">
                         <img class="w-8 h-8 rounded-full" :src="'/api/dash/favicon?domain=' + i.domain" alt="Site Icon">
                     </div>
@@ -62,6 +56,7 @@ setTimeout(() => {
                     </div>
                 </div>
             </li>
+            
         </ul>
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" v-else>
             <li class="py-3 sm:py-4" v-for="i in 3">
@@ -79,7 +74,7 @@ setTimeout(() => {
                 </div>
             </li>
         </ul>
+
    </div>
 </div>
-
 </template>

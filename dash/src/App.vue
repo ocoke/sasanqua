@@ -13,7 +13,7 @@ const toggleSidebarMobile = () => {
 </script>
 
 <template>
-  <template v-if="route.path.startsWith('/dashboard')">
+  <template v-if="!route.path.startsWith('/signin') && !route.path.startsWith('/signup')">
     <nav class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
@@ -125,7 +125,7 @@ const toggleSidebarMobile = () => {
 
         <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
             <main>
-                <div class="px-4 pt-6">
+                <div class="px-4 pt-6 mt-3">
 
                   <RouterView />
 

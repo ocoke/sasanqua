@@ -39,7 +39,7 @@ const submit = async () => {
         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 w-full max-w-xl" role="alert" v-if="errorMessage">
             <span class="font-medium">Error:</span> {{ errorMessage }}
         </div>
-        <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800">
+        <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg dark:bg-gray-800">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                 Sign up for <b>Sasanqua</b> 
             </h2>
