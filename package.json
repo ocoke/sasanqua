@@ -20,6 +20,7 @@
     "@types/ua-parser-js": "^0.7.39",
     "@vercel/kv": "^1.0.1",
     "blueimp-md5": "^2.19.0",
+    "chart.js": "^4.4.1",
     "geoip-lite": "^1.4.9",
     "jsonwebtoken": "^9.0.2",
     "nitropack": "latest",
@@ -30,6 +31,7 @@
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13",
     "vite": "^5.0.10",
+    "vue-chartjs": "^5.3.0",
     "web-vitals": "^3.5.1"
   },
   "devDependencies": {

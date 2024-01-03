@@ -24,8 +24,7 @@ describe('Sasanqua: User', () => {
                 password: 'test'
             })
         })
-        const rawData = await response.text()
-        const data = JSON.parse(rawData)
+        const data = await response.json()
         expect(data.code).toEqual(200)
         expect(data.data).toBeTypeOf('string')
     })

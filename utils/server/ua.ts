@@ -9,6 +9,6 @@ export function UAParse(UAParserResult) {
             name: UAParserResult.os.name,
             version: UAParserResult.os.version,
         },
-        device: UAParserResult.device.type,
+        device: UAParserResult.device.type || 'Device',
     }
 }

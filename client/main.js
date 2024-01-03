@@ -9,7 +9,7 @@ if (!siteId) {
 
 const hostname = location.hostname || ''
 const language = navigator.language || ''
-const refrerrer = document.referrer || ''
+const referrer = document.referrer || ''
 const screen = [window.screen.availWidth || window.innerWidth, window.screen.availHeight || window.innerHeight]
 const title = document.title
 const url = location.pathname
@@ -19,7 +19,7 @@ const collectData = {
     data: {
         hostname,
         language,
-        refrerrer,
+        referrer,
         screen,
         title,
         url,

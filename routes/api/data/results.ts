@@ -47,7 +47,7 @@ export default eventHandler(async (event) => {
     const filteredData = mergedArray.filter(item => item.date >= Number(from || 0) && item.date <= Number(to || new Date().getTime()));
 
     if (queries.includes('data')) {
-        
+
 
         filteredData.sort((a, b) => b.date - a.date);
 
@@ -55,7 +55,7 @@ export default eventHandler(async (event) => {
     }
     if (queries.includes('url')) {
 
-        const urls = filteredData.map(item => item.data.url);
+        const urls = filteredData.map(item => item.data.data.url);
 
 
         const urlCount = urls.reduce((acc, url) => {
@@ -68,7 +68,7 @@ export default eventHandler(async (event) => {
     }
     if (queries.includes('referrer')) {
 
-        const urls = filteredData.map(item => item.data.referrer);
+        const urls = filteredData.map(item => item.data.data.referrer);
 
 
         const referrerCount = urls.reduce((acc, url) => {
@@ -90,20 +90,20 @@ export default eventHandler(async (event) => {
         response['country'] = countryCount
     }
     if (queries.includes('language')) {
-            
-            const languages = filteredData.map(item => item.data.language);
-            const languageCount = languages.reduce((acc, language) => {
-                acc[language] = (acc[language] || 0) + 1;
-                return acc;
-            }
-                , {});
-            response['language'] = languageCount
+
+        const languages = filteredData.map(item => item.data.data.language);
+        const languageCount = languages.reduce((acc, language) => {
+            acc[language] = (acc[language] || 0) + 1;
+            return acc;
+        }
+            , {});
+        response['language'] = languageCount
     }
 
     if (queries.includes('screen')) {
-        const screens = filteredData.map(item => item.data.screen);
+        const screens = filteredData.map(item => item.data.data.screen);
         const screenCount = screens.reduce((acc, screen) => {
-            acc[screen.join('x')] = (acc[screen.join('x')] || 0) + 1;
+            acc[screen] = (acc[screen] || 0) + 1;
             return acc;
         }
             , {});
@@ -114,7 +114,7 @@ export default eventHandler(async (event) => {
         const averageVisitTime = filteredData.reduce((acc, item) => {
             const visitTime = item.visitTime - item.date;
             return acc + visitTime;
-          
+
         }, 0) / filteredData.length;
 
         response['visit_time'] = averageVisitTime / 1000
@@ -124,14 +124,41 @@ export default eventHandler(async (event) => {
         const uniqueVisitors = new Set();
 
         filteredData.forEach(item => {
-        const uniqueId = item.uniqueId;
-        uniqueVisitors.add(uniqueId);
+            const uniqueId = item.uniqueId;
+            uniqueVisitors.add(uniqueId);
         });
 
         response['visitor'] = uniqueVisitors.size;
     }
     if (queries.includes('visit')) {
         response['visit'] = filteredData.length;
+    }
+    if (queries.includes('browser')) {
+        const browsers = filteredData.map(item => item.ua.browser.name);
+        const browserCount = browsers.reduce((acc, browser) => {
+            acc[browser] = (acc[browser] || 0) + 1;
+            return acc;
+        }
+            , {});
+        response['browser'] = browserCount
+    }
+    if (queries.includes('os')) {
+        const os = filteredData.map(item => item.ua.os.name);
+        const osCount = os.reduce((acc, os) => {
+            acc[os] = (acc[os] || 0) + 1;
+            return acc;
+        }
+            , {});
+        response['os'] = osCount
+    }
+    if (queries.includes('device')) {
+        const devices = filteredData.map(item => item.ua.device);
+        const deviceCount = devices.reduce((acc, device) => {
+            acc[device] = (acc[device] || 0) + 1;
+            return acc;
+        }
+            , {});
+        response['device'] = deviceCount
     }
 
     return {
