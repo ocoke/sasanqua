@@ -8,7 +8,7 @@ interface CollectData {
         screen: number[],
         title: string,
         url: string,
-        query: string,
+        query: string | object,
     },
     speed: {
         FCP: number,
@@ -92,6 +92,19 @@ export default eventHandler(async (event) => {
     const siteResult: CollectedSiteData = (await storage.getItem("data:" + id)) || {}
 
     const uniqueId = (isUuid(uid) ? uid : uuid()) || uuid()
+
+    // rewrite data
+    try {
+        payload.data.referrer = new URL(payload.data.referrer).hostname
+    } catch(e) {
+        payload.data.referrer = ""
+    }
+
+    try {
+        <object>payload.data.query = Object.fromEntries(new URLSearchParams(<string>payload.data.query))
+    } catch(e) {
+        payload.data.query = {}
+    }
 
 
     const thisData = {
