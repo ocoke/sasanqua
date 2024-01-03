@@ -11,7 +11,8 @@
     "dev-dash": "vite",
     "build-dash": "vite build",
     "preview-dash": "vite preview",
-    "test-dash": "vitest"
+    "test": "vitest",
+    "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nitropack dev & vitest"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
+    "@vitest/ui": "^1.1.1",
     "@vue/test-utils": "^2.4.0-alpha.2",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",

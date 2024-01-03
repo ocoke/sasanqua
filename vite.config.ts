@@ -16,6 +16,10 @@ export default defineConfig({
     },
     plugins: [vue()],
     test: {
-
-    }
+        poolOptions: {
+          forks: {
+            singleFork: true,
+          },
+        },
+    },
 })
