@@ -27,6 +27,5 @@ jobs:
         yarn
     - name: Test
       run: |
-        yarn build-client
-        yarn build-dash
-        yarn dev & yarn test
+        yarn build
+        yarn preview & yarn test
