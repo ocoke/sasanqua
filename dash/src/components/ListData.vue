@@ -20,18 +20,23 @@ const { data, count, id, type } = defineProps({
         required: true,
     }
 })
-const entries = Object.entries(data);
 
-entries.sort((a, b) => b[1] - a[1]);
+const sortObj = (obj: object): object => {
+    const entries = Object.entries(obj);
 
-const sortedObj = Object.fromEntries(entries);
+    entries.sort((a, b) => b[1] - a[1]);
+
+    const sortedObj = Object.fromEntries(entries);
+
+    return sortedObj
+}
 
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 </script>
 <template>
     <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" >
-        <li class="py-3 sm:py-4" v-for="(i, index) in sortedObj">
+        <li class="py-3 sm:py-4" v-for="(i, index) in sortObj(data)">
             <div class="flex items-center">
                 <div class="flex-1 min-w-0 ms-4">
                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white font-mono">
