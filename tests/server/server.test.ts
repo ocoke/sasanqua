@@ -137,7 +137,11 @@ describe('Sasanqua: Site', () => {
         const data = await response.json()
         expect(data.code).toEqual(200)
         expect(data.data.site).toBeTypeOf('object')
-        expect(data.data.site).toBe(testSiteData)
+        expect(data.data.site.name).toEqual(testSiteData.name)
+        expect(data.data.site.description).toEqual(testSiteData.description)
+        expect(data.data.site.domain).toEqual(testSiteData.domain)
+        expect(data.data.site.features.speedInsights).toEqual(testSiteData.features.speedInsights)
+        expect(data.data.site.features.visitTime).toEqual(testSiteData.features.visitTime)
     })
 
     test('Get Website List', async () => {
