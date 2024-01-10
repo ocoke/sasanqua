@@ -23,7 +23,7 @@
     "dev-dash": "vite",
     "build-dash": "vite build",
     "preview-dash": "vite preview",
-    "test": "vitest",
+    "test": "vitest --threads=false",
     "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nitropack dev & vitest"
   },
   "dependencies": {
