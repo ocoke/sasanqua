@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, useRouter, useRoute } from 'vue-router'
 import ListData from '../components/ListData.vue'
-import { ref } from 'vue'
+import BarGraphs from '../components/BarGraphs.vue'
+import { ref, onUnmounted } from 'vue'
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id
@@ -16,6 +17,7 @@ const rangeValue = ref(1 * 24 * 60 * 60 * 1000)
 const timestamp = new Date().getTime()
 const fromToday = timestamp - 86400000
 const fromThisWeek = timestamp - 604800000
+const from5Minutes = timestamp - 5 * 60 * 1000
 
 interface ViewsData {
     visitor: number,
@@ -36,11 +38,12 @@ interface DetailsData {
     browser: object,
     os: object,
     device: object,
+    chart: object,
 }
 
 const todayData = ref(<ViewsData>{})
 const thisWeekData = ref(<ViewsData>{})
-
+const liveUser = ref(<ViewsData>{})
 const detailsData = ref(<DetailsData>{})
 
 setTimeout(() => {
@@ -84,7 +87,7 @@ setTimeout(() => {
             thisWeekData.value = res.data
         }
     })
-    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device`, {
+    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -93,6 +96,18 @@ setTimeout(() => {
     }).then(res => res.json()).then(res => {
         if (res.code == 200) {
             detailsData.value = res.data
+        }
+    })
+    // live user
+    fetch(`/api/data/results?id=${id}&from=${from5Minutes}&to=${timestamp}&query=visitor`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('sasanqua_token')
+        },
+    }).then(res => res.json()).then(res => {
+        if (res.code == 200) {
+            liveUser.value = res.data
         }
     })
 }, 100)
@@ -128,7 +143,7 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 const changeRange = (e) => {
     const timestamp = new Date().getTime()
     const fromVal = timestamp - e.target.value
-    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device`, {
+    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -140,10 +155,31 @@ const changeRange = (e) => {
         }
     })
 }
+
+// set interval for live user data
+const liveUserInterval = setInterval(() => {
+    let timestamp = new Date().getTime()
+    let from5Minutes = timestamp - 5 * 60 * 1000
+    fetch(`/api/data/results?id=${id}&from=${from5Minutes}&to=${timestamp}&query=visitor`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('sasanqua_token')
+        },
+    }).then(res => res.json()).then(res => {
+        if (res.code == 200) {
+            liveUser.value = res.data
+        }
+    })
+}, 1 * 60 * 1000)
+
+onUnmounted(() => {
+    clearInterval(liveUserInterval)
+})
 </script>
 <template>
     <div class="w-full max-w-5xl mx-auto" v-if="siteName && siteDomain">
-        <p class="text-3xl text-gray-900 dark:text-white mb-3 font-bold">{{ siteName }}</p>
+        <p class="text-3xl text-gray-900 dark:text-white mb-3 font-bold flex items-center"><span>{{ siteName }}</span><span class="text-sm ml-8 flex items-center" v-if="liveUser.visitor"><div class="rounded-full w-3 h-3 mr-2 bg-green-500 animate-pulse"></div>{{ liveUser.visitor }} current visitors</span></p>
         <p class="text-xl text-gray-900 dark:text-white mb-6 opacity-70 font-mono">{{ siteDomain }}</p>
     </div>
     <div class="w-full max-w-5xl mx-auto" v-else>
@@ -183,12 +219,14 @@ const changeRange = (e) => {
                         <option :value="7 * 24 * 60 * 60 * 1000">Last 7 Days</option>
                         <option :value="30 * 24 * 60 * 60 * 1000">Last 30 Days</option>
                         <option :value="90 * 24 * 60 * 60 * 1000">Last 90 Days</option>
+                        <option :value="365 * 24 * 60 * 60 * 1000">Last Year</option>
                         </select>
                     </div>
                 </div>
                
                 <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Graphs</p>
+                    <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
                 <div class="grid sm:grid-cols-2 gap-4 mt-4">
                     <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">

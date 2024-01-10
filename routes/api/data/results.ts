@@ -43,9 +43,11 @@ export default eventHandler(async (event) => {
     }
 
     const response = {}
-    const mergedArray = Object.values(data).reduce((acc, val) => acc.concat(val), []);
+    const mergedArray = Object.entries(data).reduce((acc, [key, valueArray]) => {
+        const itemsWithKey = valueArray.map(item => ({ ...item, uniqueId: key }));
+        return acc.concat(itemsWithKey);
+    }, []);
     const filteredData = mergedArray.filter(item => item.date >= Number(from || 0) && item.date <= Number(to || new Date().getTime()));
-
     if (queries.includes('data')) {
 
 
@@ -159,6 +161,77 @@ export default eventHandler(async (event) => {
         }
             , {});
         response['device'] = deviceCount
+    }
+    if (queries.includes('chart')) {
+        // visit/visitor, split by times
+        if (Number(to || new Date().getTime()) - Number(from || 0) <= 86400000) {
+            // less than 24hrs, split by hours
+            const resp = {
+                type: 'hours',
+                visits: [],
+                visitors: [],
+                from: Number(from || 0),
+                to: Number(to || new Date().getTime()),
+            }
+
+            for (let i = 0; i < 24; i++) {
+                const start = Number(from || 0) + i * 3600000;
+                const end = Number(from || 0) + (i + 1) * 3600000;
+
+                const filtered = filteredData.filter(item => item.date >= start && item.date <= end);
+
+                resp.visits.push(filtered.length || 0);
+
+                resp.visitors.push(new Set(filtered.map(item => item.uniqueId)).size || 0);
+            }
+
+            response['chart'] = resp;
+        } else if (Number(to || new Date().getTime()) - Number(from || 0) <= 90 * 86400000) {
+            // less than 90 days, split by days
+            const resp = {
+                type: 'days',
+                visits: [],
+                visitors: [],
+                from: Number(from || 0),
+                to: Number(to || new Date().getTime()),
+            }
+            let start = Number(from || 0)
+            let end = start + 86400000
+            while(end <= Number(to || new Date().getTime())) {
+                const filtered = filteredData.filter(item => item.date >= start && item.date <= end);
+
+                resp.visits.push(filtered.length || 0);
+                resp.visitors.push(new Set(filtered.map(item => item.uniqueId)).size || 0);
+
+                start += 86400000
+                end += 86400000
+            }
+            response['chart'] = resp
+        } else if (Number(to || new Date().getTime()) - Number(from || 0) <= 365 * 86400000) {
+            // less than 365 days, split by months
+            const febCalc = new Date(Number(from || 0)).getMonth() > 1 ? Number(to || new Date().getTime()) : Number(from || 0)
+            const months = [31, 28 + (new Date(febCalc).getFullYear() % 4 === 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30 ,31]
+            let start = Number(from || 0)
+            let end = start + months[new Date(start).getMonth()] * 86400000
+            const resp = {
+                type: 'months',
+                visits: [],
+                visitors: [],
+                from: Number(from || 0),
+                to: Number(to || new Date().getTime()),
+                months,
+            }
+            while(end <= Number(to || new Date().getTime())) {
+                const filtered = filteredData.filter(item => item.date >= start && item.date <= end);
+
+                resp.visits.push(filtered.length || 0);
+                resp.visitors.push(new Set(filtered.map(item => item.uniqueId)).size || 0);
+
+                start += months[new Date(start).getMonth()] * 86400000
+                end += months[new Date(start).getMonth()] * 86400000
+            }
+            response['chart'] = resp
+        }
     }
 
     return {
