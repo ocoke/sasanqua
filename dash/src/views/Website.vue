@@ -189,7 +189,7 @@ onUnmounted(() => {
     <div class="w-full max-w-5xl mx-auto">
         <!-- cols: 2 -->
         <div class="grid sm:grid-cols-2 gap-4">
-            <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+            <div class="sasanqua-item-card">
                 <p class="text-xl text-gray-900 dark:text-white mb-4 font-bold">Today</p>
                 <p class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(todayData.visit) || 0 }}</span>
                     Views</p>
@@ -198,7 +198,7 @@ onUnmounted(() => {
                 <p class="CardNumberTitle" v-if="todayData.visit_time"><span class="CardNumber">{{
                     convertTime(todayData.visit_time) || 'N/A' }}</span> Avg Visit Time</p>
             </div>
-            <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+            <div class="sasanqua-item-card">
                 <p class="text-xl text-gray-900 dark:text-white mb-4 font-bold">This Week</p>
                 <p class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(thisWeekData.visit) || 0 }}</span>
                     Views</p>
@@ -209,7 +209,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="mt-4">
-            <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+            <div class="sasanqua-item-card">
                 <div class="text-xl text-gray-900 dark:text-white mb-3 font-bold flex items-center">
                     <span>Data</span>
                     <div class="ml-auto">
@@ -224,40 +224,40 @@ onUnmounted(() => {
                     </div>
                 </div>
                
-                <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Charts</p>
                     <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
-                <div class="grid sm:grid-cols-2 gap-4 mt-4">
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
                         <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url" v-if="detailsData.url"/>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
                         <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer" v-if="detailsData.referrer" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
                         <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country" v-if="detailsData.country" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
                         <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" type="language" v-if="detailsData.language" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Browsers</p>
                         <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" type="browser" v-if="detailsData.browser" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">OS</p>
                         <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" type="os" v-if="detailsData.os" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Devices</p>
                         <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device" v-if="detailsData.device" />
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Screens</p>
                         <ListData :data="detailsData.screen" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.screen" />
                     </div>
@@ -267,10 +267,17 @@ onUnmounted(() => {
 
     </div>
 </template>
-<style>.CardNumber {
+<style>
+.CardNumber {
     @apply text-2xl font-bold mr-3 font-mono;
 }
 
 .CardNumberTitle {
     @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center opacity-80;
-}</style>
+}
+
+.sasanqua-item-card {
+    @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
+}
+
+</style>

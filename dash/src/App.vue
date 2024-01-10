@@ -133,7 +133,7 @@ const toggleSidebarMobile = () => {
             </main>
           
             <p class="my-10 text-sm text-center text-gray-500">
-                &copy; 2023 <a href="https://github.com/ocoke/sasanqua/" class="hover:underline" target="_blank">Sasanqua</a>.
+                &copy; 2023-2024 <a href="https://github.com/ocoke/sasanqua/" class="hover:underline" target="_blank">Sasanqua</a>.
                 
             </p>
 
