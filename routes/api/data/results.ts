@@ -234,6 +234,12 @@ export default eventHandler(async (event) => {
         }
     }
 
+    if (queries.includes('realtime')) {
+        filteredData.sort((a, b) => b.visitTime - a.visitTime);
+
+        response['realtime'] = filteredData
+    }
+
     return {
         code: 200,
         error: null,
