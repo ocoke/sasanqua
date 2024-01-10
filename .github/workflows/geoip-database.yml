@@ -17,8 +17,8 @@ jobs:
           rm -rf src/geo/
           mkdir -p src/geo/
 
-          wget https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz -O GeoLite2-City.tar.gz
-          wget https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz -O GeoLite2-City.tar.gz.sha256
+          wget-O GeoLite2-City.tar.gz https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
+          wget -O GeoLite2-City.tar.gz.sha256 https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
 
           sha256sum -c GeoLite2-City.tar.gz.sha256
 
