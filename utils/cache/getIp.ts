@@ -1,6 +1,6 @@
 import maxmind, { CityResponse } from 'maxmind'
-const lookup = await maxmind.open<CityResponse>('../../src/geoip/GeoLite2-City.mmdb')
 export const getIp = cachedFunction(async (ip: string) => {
+    const lookup = await maxmind.open<CityResponse>('../../src/geoip/GeoLite2-City.mmdb')
     return lookup.get(ip)
 }, {
     // cached 7 days
