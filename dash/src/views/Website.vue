@@ -225,7 +225,7 @@ onUnmounted(() => {
                 </div>
                
                 <div class="bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Graphs</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Charts</p>
                     <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
                 <div class="grid sm:grid-cols-2 gap-4 mt-4">
