@@ -10,8 +10,6 @@ const now = new Date().getTime()
 
 let token: string = ""
 
-console.log(server)
-
 describe('Sasanqua: User', () => {
     test('Sign up', async () => {
         const response = await fetch(`${server}/user/signup`, {
