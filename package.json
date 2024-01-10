@@ -1,5 +1,17 @@
 {
-  "private": true,
+  "name": "sasanqua",
+  "version": "0.0.1",
+  "description": "📈 Simple, privacy-friendly, real-time traffic insight at the edge.",
+  "license": "MIT",
+  "author": {
+    "name": "Jun Y.",
+    "email": "hi@cky.im"
+  },
+  "homepage": "https://github.com/ocoke/sasanqua",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocoke/sasanqua"
+  },
   "type": "module",
   "scripts": {
     "prepare": "nitropack prepare",
