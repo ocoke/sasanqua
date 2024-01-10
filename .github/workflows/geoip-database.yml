@@ -14,16 +14,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update GeoIP Database
         run: |
-          rm -rf src/geo/
-          mkdir -p src/geo/
+          rm -rf src/geoip/
+          mkdir -p src/geoip/
 
-          wget -O GeoLite2-City.tar.gz https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
-          wget -O GeoLite2-City.tar.gz.sha256 https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz.sha256 
+          wget -O src/geoip/GeoLite2-City.tar.gz https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
+          wget -O src/geoip/GeoLite2-City.tar.gz.sha256 https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz.sha256 
 
-          sha256sum -c GeoLite2-City.tar.gz.sha256
+          sha256sum -c src/geoip/GeoLite2-City.tar.gz.sha256
 
-          tar -xzf GeoLite2-City.tar.gz --strip-components=1 -C src/geo/
-          rm GeoLite2-City.tar.gz GeoLite2-City.tar.gz.sha256
+          tar -xzf src/geoip/GeoLite2-City.tar.gz --strip-components=1 -C src/geoip/
+          rm src/geoip/GeoLite2-City.tar.gz src/geoip/GeoLite2-City.tar.gz.sha256
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5

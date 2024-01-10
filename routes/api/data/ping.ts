@@ -31,8 +31,8 @@ interface CollectData {
 }
 interface GeoIp {
     country: string,
-    region: string,
     city: string,
+    country_code: string,
 }
 
 interface UaData {
