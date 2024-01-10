@@ -1,0 +1,34 @@
+name: Update GeoIP Database
+
+# every week
+on:
+  schedule:
+    - cron:  '0 0 * * 0'
+  workflow_dispatch: 
+
+jobs:
+
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update GeoIP Database
+        run: |
+          rm -rf src/geo/
+          mkdir -p src/geo/
+
+          wget https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz -O GeoLite2-City.tar.gz
+          wget https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz -O GeoLite2-City.tar.gz.sha256
+
+          sha256sum -c GeoLite2-City.tar.gz.sha256
+
+          tar -xzf GeoLite2-City.tar.gz --strip-components=1 -C src/geo/
+          rm GeoLite2-City.tar.gz GeoLite2-City.tar.gz.sha256
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "deps(database): update"
+          title: "deps(database): update"
+          token: ${{  github.token  }}
+        continue-on-error: true
