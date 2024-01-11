@@ -9,7 +9,15 @@ export const getIp = cachedFunction(async (ip: string) => {
     //     city: geo.city.names.en || 'Unknown',
     // }
 
-    if (ip == "::1" || ip == "127.0.0.1" || !ip || ip == "localhost" || ip == "::ffff:127.0.0.1") {
+    // if (ip == "::1" || ip == "127.0.0.1" || !ip || ip == "localhost" || ip == "::ffff:127.0.0.1") {
+    //     return {
+    //         country_code: 'Unknown',
+    //         country: 'Unknown',
+    //         city: 'Unknown',
+    //     }
+    // }
+
+    if (!ip) {
         return {
             country_code: 'Unknown',
             country: 'Unknown',
