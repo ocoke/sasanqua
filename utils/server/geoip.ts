@@ -5,9 +5,5 @@ import { getIp } from '../cache/getIp'
 export async function getGeoIp(req) {
     const ip = requestIp.getClientIp(req)
     const geo = await getIp(ip) || {}
-    return {
-        country_code: geo.country.iso_code || 'Unknown',
-        country: geo.country.names.en || 'Unknown',
-        city: geo.city.names.en || 'Unknown',
-    }
+    return geo
 }
