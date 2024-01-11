@@ -12,23 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Update GeoIP Database
-        run: |
-          rm -rf src/geoip/
-          mkdir -p src/geoip/
+      # - name: Update GeoIP Database
+      #   run: |
+      #     rm -rf src/geoip/
+      #     mkdir -p src/geoip/
 
-          wget -O src/geoip/GeoLite2-City.tar.gz https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
-          wget -O src/geoip/GeoLite2-City.tar.gz.sha256 https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz.sha256 
+      #     wget -O src/geoip/GeoLite2-City.tar.gz https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz 
+      #     wget -O src/geoip/GeoLite2-City.tar.gz.sha256 https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${{ secrets.MAXMIND_LICENSE_KEY }}&suffix=tar.gz.sha256 
 
-          sha256sum -c src/geoip/GeoLite2-City.tar.gz.sha256
+      #     sha256sum -c src/geoip/GeoLite2-City.tar.gz.sha256
 
-          tar -xzf src/geoip/GeoLite2-City.tar.gz --strip-components=1 -C src/geoip/
-          rm src/geoip/GeoLite2-City.tar.gz src/geoip/GeoLite2-City.tar.gz.sha256
+      #     tar -xzf src/geoip/GeoLite2-City.tar.gz --strip-components=1 -C src/geoip/
+      #     rm src/geoip/GeoLite2-City.tar.gz src/geoip/GeoLite2-City.tar.gz.sha256
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          commit-message: "deps(database): update"
-          title: "deps(database): update"
-          token: ${{  github.token  }}
-        continue-on-error: true
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v5
+      #   with:
+      #     commit-message: "deps(database): update"
+      #     title: "deps(database): update"
+      #     token: ${{  github.token  }}
+      #   continue-on-error: true
