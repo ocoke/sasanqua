@@ -27,35 +27,6 @@ const props = defineProps({
 const { data, id } = toRefs(props)
 
 
-
-// const parseData = (data, by, type) => {
-//     const datasets = ref([])
-//     let labels = []
-//     if (by == 'hours') {
-//         labels = barLabels.hours
-//         for (let i = 0; i < 24; i++) {
-//             datasets.value.push(0)
-//         }
-//     }
-//     if (type == 'views') {
-//         for (let i in data) {
-//             const time = data[i].visitTime
-//             const hour = new Date(time).getHours()
-//             datasets.value[hour] += 1
-//         }
-//     }
-//     if (type == 'visitors') {
-//         for (let i in data) {
-//             const time = data[i].visitTime
-//             const hour = new Date(time).getHours()
-//             datasets.value[hour] += 1
-//         }
-//     }
-//     return [datasets.value, labels]
-// }
-
-
-
 const graphData = computed(() => {
     if (!data.value) {
         return {
@@ -74,7 +45,7 @@ const graphData = computed(() => {
                 backgroundColor: '#3B82F6',
                 borderColor: '#3B82F6',
                 borderWidth: 1,
-                stack: 'combined',
+                // stack: 'combined',
             },
             {
                 label: 'Views',
@@ -83,7 +54,7 @@ const graphData = computed(() => {
                 backgroundColor: '#93C5FD',
                 borderColor: '#93C5FD',
                 borderWidth: 1,
-                stack: 'combined',
+                // stack: 'combined',
             }
         ],
     }

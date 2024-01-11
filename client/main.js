@@ -75,6 +75,7 @@ if (enableVisitingTime) {
     }, 1000 * 20)
     // when page change, clear interval
     window.addEventListener('beforeunload', () => {
+        window.SASANQUA_PAGE_SID = null
         clearInterval(visitingTimeInterval)
     })
 }

@@ -25,7 +25,14 @@ export const getIp = cachedFunction(async (ip: string) => {
         }
     }
 
-    const geo = await fetch("https://ipapi.co/" + ip + "/json").then(res => res.json())
+    const geo = await $fetch("https://ipapi.co/" + ip + "/json")
+    if (geo.reserved) {
+        return {
+            country_code: 'Reserved',
+            country: 'Reserved',
+            city: 'Reserved',
+        }
+    }
     return {
         city: geo.city || 'Unknown',
         country: geo.country_name || 'Unknown',
@@ -33,8 +40,7 @@ export const getIp = cachedFunction(async (ip: string) => {
     }
 
 }, {
-    // cached 7 days
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 1 * 60,
     name: 'cachedIp',
     getKey: (ip: string) => ip
 })
