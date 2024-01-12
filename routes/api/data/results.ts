@@ -18,9 +18,11 @@ export default eventHandler(async (event) => {
     }
 
     // id: site id, from/to: timestamp
-    const { id, from, to, query } = await getQuery(event)
+    const { id, from, to, query, filter } = await getQuery(event)
 
     const queries = (<string>query || '').split(',')
+
+    const filters = JSON.parse(decodeURIComponent(<string>filter))
 
     if (!id) {
         return {

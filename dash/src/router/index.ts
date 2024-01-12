@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/Websites.vue')
     },
     {
+      path: '/websites/data/:id',
+      name: 'data',
+      component: () => import('../views/Data.vue')
+    },
+    {
       path: '/websites/:id',
       name: 'website',
       component: () => import('../views/Website.vue')
@@ -37,6 +42,11 @@ const router = createRouter({
       path: '/edit',
       name: 'add',
       component: () => import('../views/Edit.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../views/Settings.vue')
     }
   ]
 })
