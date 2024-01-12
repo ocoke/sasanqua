@@ -102,7 +102,7 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 const changeRange = (e) => {
     const timestamp = new Date().getTime()
     const fromVal = timestamp - e.target.value
-    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
+    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart&filter=${getDataQueryParams()}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

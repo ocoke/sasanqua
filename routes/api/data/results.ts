@@ -22,7 +22,15 @@ export default eventHandler(async (event) => {
 
     const queries = (<string>query || '').split(',')
 
-    const filters = JSON.parse(decodeURIComponent(<string>filter))
+    let filters = {}
+
+    if (filter) {
+        try {
+            filters = JSON.parse((<string>filter))
+        } catch (e) {
+            console.warn(e)
+        }
+    }
 
     if (!id) {
         return {
@@ -44,14 +52,41 @@ export default eventHandler(async (event) => {
         }
     }
 
+
     const response = {}
     const mergedArray = Object.entries(data).reduce((acc, [key, valueArray]) => {
         const itemsWithKey = valueArray.map(item => ({ ...item, uniqueId: key }));
         return acc.concat(itemsWithKey);
     }, []);
-    const filteredData = mergedArray.filter(item => item.date >= Number(from || 0) && item.date <= Number(to || new Date().getTime()));
-    if (queries.includes('data')) {
+    let filteredData = mergedArray.filter(item => item.date >= Number(from || 0) && item.date <= Number(to || new Date().getTime()));
 
+    for (let key in filters) {
+        let val = filters[key]
+        filteredData = filteredData.filter(item => {
+            try {
+                if (!item.data.data) {
+                    return false
+                } else if (item.data.data[key] && item.data.data[key] === val) {
+                    return true
+                } else if (item.geo[key] && item.geo[key] === val) {
+                    return true
+                } else if (item.ua[key]) {
+                    if (item.ua[key].name) {
+                        return item.ua[key].name === val
+                    } else {
+                        return item.ua[key] === val
+                    }
+                } else {
+                    return false
+                }
+            } catch (e) {
+                return false
+            }
+        })
+    }
+
+
+    if (queries.includes('data')) {
 
         filteredData.sort((a, b) => b.date - a.date);
 
@@ -199,7 +234,7 @@ export default eventHandler(async (event) => {
             }
             let start = Number(from || 0)
             let end = start + 86400000
-            while(end <= Number(to || new Date().getTime())) {
+            while (end <= Number(to || new Date().getTime())) {
                 const filtered = filteredData.filter(item => item.date >= start && item.date <= end);
 
                 resp.visits.push(filtered.length || 0);
@@ -212,7 +247,7 @@ export default eventHandler(async (event) => {
         } else if (Number(to || new Date().getTime()) - Number(from || 0) <= 365 * 86400000) {
             // less than 365 days, split by months
             const febCalc = new Date(Number(from || 0)).getMonth() > 1 ? Number(to || new Date().getTime()) : Number(from || 0)
-            const months = [31, 28 + (new Date(febCalc).getFullYear() % 4 === 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30 ,31]
+            const months = [31, 28 + (new Date(febCalc).getFullYear() % 4 === 0 ? 1 : 0), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
             let start = Number(from || 0)
             let end = start + months[new Date(start).getMonth()] * 86400000
             const resp = {
@@ -223,7 +258,7 @@ export default eventHandler(async (event) => {
                 to: Number(to || new Date().getTime()),
                 months,
             }
-            while(end <= Number(to || new Date().getTime())) {
+            while (end <= Number(to || new Date().getTime())) {
                 const filtered = filteredData.filter(item => item.date >= start && item.date <= end);
 
                 resp.visits.push(filtered.length || 0);
