@@ -38,9 +38,11 @@ jobs:
         run: |
             npm install -g yarn
             yarn
-      - name: Test
+      - name: Build
         run: |
              yarn build
+             rm -rf dist/
+             mkdir dist
              mv public/script.js dist/script.js
       - name: Publish
         run: npm publish
