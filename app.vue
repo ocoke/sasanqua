@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-// get the route path
-import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import '~/assets/main.css'
 const route = useRoute()
 const sidebar = ref(null)
 const sidebarBackdrop = ref(null)
@@ -13,6 +10,7 @@ const toggleSidebarMobile = () => {
 </script>
 
 <template>
+    <NuxtLoadingIndicator />
   <template v-if="!route.path.startsWith('/signin') && !route.path.startsWith('/signup')">
     <nav class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -55,7 +53,7 @@ const toggleSidebarMobile = () => {
                         class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         <ul class="pb-2 space-y-2">
                             <li>
-                                <router-link to="/dashboard"
+                                <Nuxt-Link to="/dashboard"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
                                     <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -63,10 +61,10 @@ const toggleSidebarMobile = () => {
                                         <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                                     </svg>
                                     <span class="ml-3" sidebar-toggle-item>Dashboard</span>
-                                </router-link>
+                                </Nuxt-Link>
                             </li>
                             <li>
-                                <router-link to="/websites"
+                                <Nuxt-Link to="/websites"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
                                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -75,10 +73,10 @@ const toggleSidebarMobile = () => {
                                             clip-rule="evenodd"></path>
                                     </svg>
                                     <span class="ml-3" sidebar-toggle-item>Websites</span>
-                                </router-link>
+                                </Nuxt-Link>
                             </li>
                             <!-- <li>
-                                <router-link to="/reports"
+                                <Nuxt-Link to="/reports"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
                                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
@@ -88,10 +86,10 @@ const toggleSidebarMobile = () => {
                                         </path>
                                     </svg>
                                     <span class="ml-3" sidebar-toggle-item>Reports</span>
-                                </router-link>
+                                </Nuxt-Link>
                             </li> -->
                             <li>
-                                <router-link to="/settings"
+                                <Nuxt-Link to="/settings"
                                     class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 ">
                                     <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +99,7 @@ const toggleSidebarMobile = () => {
                                         </path>
                                     </svg>
                                     <span class="ml-3" sidebar-toggle-item>Settings</span>
-                                </router-link>
+                                </Nuxt-Link>
                             </li>
                         </ul>
                         <div class="pt-2 space-y-2">
@@ -127,7 +125,7 @@ const toggleSidebarMobile = () => {
             <main>
                 <div class="px-4 pt-6 mt-3">
 
-                  <RouterView />
+                    <NuxtPage />
 
                 </div>
             </main>
@@ -142,7 +140,7 @@ const toggleSidebarMobile = () => {
     </div>
   </template>
   <template v-else>
-    <RouterView />
+    <NuxtPage />
   </template>
   
 </template>

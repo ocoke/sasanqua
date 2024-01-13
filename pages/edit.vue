@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { RouterLink, useRouter, useRoute } from 'vue-router'
-import { ref } from 'vue'
 
 const name = ref('')
 const domain = ref('')

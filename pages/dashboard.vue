@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, useRouter } from 'vue-router'
-import { ref } from 'vue'
-import pkg from '../../../package.json'
+import pkg from '~/package.json'
 
 
 const router = useRouter()

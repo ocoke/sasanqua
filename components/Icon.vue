@@ -21,5 +21,6 @@ const { data, type } = defineProps({
     </div>
     <div v-else-if="type == 'country'">
         <img :src="'/icons/unknown.png'" class="inline-block mr-1 mb-[0.7px] w-[16px] h-[16px]" />
+        <span class="fi fi-gr"></span> <span class="fi fi-gr fis"></span>
     </div>
 </template>

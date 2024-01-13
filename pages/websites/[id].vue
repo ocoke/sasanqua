@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { RouterLink, useRouter, useRoute } from 'vue-router'
-import ListData from '../components/ListData.vue'
-import BarGraphs from '../components/BarGraphs.vue'
-import { ref, onUnmounted } from 'vue'
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id

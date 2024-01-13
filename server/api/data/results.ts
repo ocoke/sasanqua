@@ -120,7 +120,7 @@ export default eventHandler(async (event) => {
     }
     if (queries.includes('country')) {
 
-        const countries = filteredData.map(item => item.geo.country);
+        const countries = filteredData.map(item => (item.geo.country_code || 'Unknown'));
         const countryCount = countries.reduce((acc, country) => {
             acc[country] = (acc[country] || 0) + 1;
             return acc;

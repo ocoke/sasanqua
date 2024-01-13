@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { RouterLink, useRouter } from 'vue-router'
-import { ref } from 'vue'
 import md5 from 'blueimp-md5'
 const username = ref('')
 const password = ref('')
