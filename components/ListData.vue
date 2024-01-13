@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import languageNames from '../scripts/languageNames.ts'
+import countryNames from '../scripts/countryNames.ts'
 import Icon from './Icon.vue'
 // get data from props
 const { data, count, id, type } = defineProps({
@@ -47,6 +48,8 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' });
                             <span v-if="type == 'screen'">{{ index.replace(',', 'x') }}</span>
                             <span v-else-if="type == 'referrer' && (index == '' || index == 'undefined')">[None]</span>
                             <span v-else-if="type == 'language'">{{ languageNames[index] }}</span>
+                            <span v-else-if="type == 'country'">{{ countryNames[index] || index }}</span>
+                            <span v-else-if="type == 'device'">{{ index.slice(0, 1).toUpperCase() + index.slice(1).toLowerCase() }}</span>
                             <span v-else>{{ index }}</span>
                         </router-link></span>
                     </p>
