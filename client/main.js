@@ -2,9 +2,7 @@ import { getData } from "./utils/data"
 import { collect } from "./utils/collect"
 import { ping } from "./utils/ping"
 
-const getAttr = (id) => {
-    return document.currentScript.getAttribute(id)
-}
+const getAttr = document.currentScript.getAttribute
 const siteId = getAttr('data-site-id') || window.SASANQUA_SITE_ID;
 const serverUrl = getAttr('data-server-url') || window.SASANQUA_SERVER_URL;
 const enableSpeed = getAttr('data-speed-insights') || window.SASANQUA_SPEED_INSIGHTS;
@@ -32,21 +30,21 @@ if (enableSpeed) {
 
 if (enableVisitingTime) {
     // interval, ping
-    window.sa_vti = setInterval(() => {
+    window.visitingTimeInterval = setInterval(() => {
         ping(serverUrl, siteId)
     }, 1000 * 20)
     // when page change, clear interval
     window.addEventListener('beforeunload', () => {
         window.SASANQUA_PAGE_SID = null
-        clearInterval(window.sa_vti)
+        clearInterval(window.visitingTimeInterval)
     })
     document.addEventListener('visibilitychange', function () {
         if (document.visibilityState == 'hidden') {
             // user hide the page
-            clearInterval(window.sa_vti)
+            clearInterval(window.visitingTimeInterval)
         } else {
             // user back to the page
-            window.sa_vti = setInterval(() => {
+            window.visitingTimeInterval = setInterval(() => {
                 ping(serverUrl, siteId)
             }, 1000 * 20)
         }
