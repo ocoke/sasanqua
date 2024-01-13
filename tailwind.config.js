@@ -1,8 +1,8 @@
 import colors from 'tailwindcss/colors'
 export default {
     content: [
-      "./dash/index.html",
-      "./dash/**/*.{vue,js,ts,jsx,tsx}",
+      "./dashboard/index.html",
+      "./dashboard/**/*.{vue,js,ts,jsx,tsx}",
     ],
     plugins: [],
     theme: {
