@@ -1,16 +1,9 @@
-interface EditSiteData {
-    name: string,
-    description: string,
-    domain: string,
-    features: {
-        [key: string]: boolean,
-    }
-}
+
 
 export const getCachedSite = cachedFunction(async (id: string) => {
     const storage = useStorage('sasanqua')
 
-    const data: EditSiteData = await storage.getItem("site:" + id)
+    const data: EditSiteData = (await storage.getItem("data:" + id))['_data_']
 
     return data
 

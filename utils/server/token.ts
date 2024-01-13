@@ -1,19 +1,4 @@
-import jwt from 'jsonwebtoken'
 import { getTokenStatus } from '../cache/getTokenStatus'
-
-interface userJWT {
-    exp: number,
-    iat: number,
-    data: {
-        username: string,
-        password: string
-    },
-}
-
-interface userData {
-    username: string,
-    password: string,
-}
 
 export async function checkUserToken(token: string) {
     try {

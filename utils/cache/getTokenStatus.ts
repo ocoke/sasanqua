@@ -1,18 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-interface userJWT {
-    exp: number,
-    iat: number,
-    data: {
-        username: string,
-        password: string
-    },
-}
 
-interface userData {
-    username: string,
-    password: string,
-}
 
 export const getTokenStatus = cachedFunction(async (token: string) => {
     try {

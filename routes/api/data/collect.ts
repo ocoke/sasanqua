@@ -1,61 +1,6 @@
 import { UAParser } from 'ua-parser-js'
 import { v4 as uuid, validate as isUuid } from "uuid"
-interface CollectData {
-    data: {
-        hostname: string,
-        language: string,
-        referrer: string,
-        screen: number[],
-        title: string,
-        url: string,
-        query: string | object,
-    },
-    speed: {
-        FCP: number,
-        TTFB: number,
-        LCP: number,
-        CLS: number,
-        FID: number,
-        INP: number,
-        score: number,
-    }
-}
-interface GeoIp {
-    country: string,
-    city: string,
-    country_code: string,
-}
 
-interface UaData {
-    browser: {
-        name: string,
-        version: string,
-    },
-    os: {
-        name: string,
-        version: string,
-    },
-    device: string,
-}
-interface EditSiteData {
-    name: string,
-    description: string,
-    domain: string,
-    features: {
-        [key: string]: boolean,
-    }
-}
-
-interface CollectedSiteData {
-    [key: string]: {
-        data: CollectData,
-        geo: GeoIp,
-        ua: UaData,
-        sid: string,
-        visitTime: number,
-        date: number,
-    }[],
-}
 
 export default eventHandler(async (event) => {
     const data = await readBody(event)
@@ -80,16 +25,9 @@ export default eventHandler(async (event) => {
 
     // const siteData: EditSiteData = await storage.getItem("site:" + id)
 
-    const siteData: EditSiteData = await getCachedSite(id).catch(() => {
-        return {
-            name: "",
-            description: "",
-            domain: "",
-            features: {},
-        }
-    })
-
     const siteResult: CollectedSiteData = (await storage.getItem("data:" + id)) || {}
+
+    const siteData: EditSiteData = (await storage.getItem("data:" + id))['_data_']
 
     const uniqueId = (isUuid(uid) ? uid : uuid()) || uuid()
 

@@ -1,13 +1,6 @@
 // get site data
 import { validate as isUuid } from "uuid"
-interface EditSiteData {
-    name: string,
-    description: string,
-    domain: string,
-    features: {
-        [key: string]: boolean,
-    }
-}
+
 export default eventHandler(async (event) => {
     // get authorization headers
     const authorization = getHeader(event, 'authorization')
@@ -41,7 +34,7 @@ export default eventHandler(async (event) => {
             error: 'invalid id',
         }
     }
-    const data: EditSiteData = await storage.getItem("site:" + id)
+    const data: EditSiteData = (await storage.getItem("data:" + id))['_data_']
 
 
     return {

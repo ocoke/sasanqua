@@ -4,6 +4,10 @@ import { getIp } from '../cache/getIp'
 
 export async function getGeoIp(req) {
     const ip = requestIp.getClientIp(req)
-    const geo = await getIp(ip) || {}
+    const geo = await getIp(ip) || {
+        country: 'Unknown',
+        city: 'Unknown',
+        country_code: 'Unknown',
+    }
     return geo
 }

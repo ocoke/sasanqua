@@ -1,60 +1,5 @@
 import { validate as isUuid } from "uuid"
 
-interface CollectedSiteData {
-    [key: string]: {
-        data: CollectData,
-        geo: GeoIp,
-        ua: UaData,
-        sid: string,
-        visitTime: number,
-        date: number,
-    }[],
-}
-interface CollectData {
-    data: {
-        hostname: string,
-        language: string,
-        referrer: string,
-        screen: number[],
-        title: string,
-        url: string,
-    },
-    speed: {
-        FCP: number,
-        TTFB: number,
-        LCP: number,
-        CLS: number,
-        FID: number,
-        INP: number,
-        score: number,
-    }
-}
-interface GeoIp {
-    country: string,
-    city: string,
-    country_code: string,
-}
-
-interface UaData {
-    browser: {
-        name: string,
-        version: string,
-    },
-    os: {
-        name: string,
-        version: string,
-    },
-    mobile: boolean,
-}
-interface EditSiteData {
-    name: string,
-    description: string,
-    domain: string,
-    features: {
-        [key: string]: boolean,
-    }
-}
-
 export default eventHandler(async (event) => {
     // get uid from request headers
     // const uid = getHeader(event, 'x-sasanqua-id')
@@ -85,7 +30,7 @@ export default eventHandler(async (event) => {
         }
     }
     // get site data
-    const siteResult: CollectedSiteData = await storage.getItem("data:" + id)
+    const siteResult: CollectedSiteData = (await storage.getItem("data:" + id)) || {}
     if (!siteResult[uid]) {
         return {
             code: 400,

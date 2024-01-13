@@ -1,6 +1,4 @@
-interface ListData {
-    [key: string]: string,
-}
+
 
 
 export default eventHandler(async (event) => {
