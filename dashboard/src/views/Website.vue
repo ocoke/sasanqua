@@ -228,11 +228,12 @@ onUnmounted(() => {
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Charts</p>
                     <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
-                <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
-                    <div class="sasanqua-item-card">
+                <div class="sasanqua-item-card mt-4">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
                         <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url" v-if="detailsData.url"/>
                     </div>
+                <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
+                    
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
                         <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer" v-if="detailsData.referrer" />
@@ -257,6 +258,7 @@ onUnmounted(() => {
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Devices</p>
                         <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device" v-if="detailsData.device" />
                     </div>
+                   
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Screens</p>
                         <ListData :data="detailsData.screen" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.screen" />

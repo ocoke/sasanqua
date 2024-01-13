@@ -34,8 +34,7 @@ export default eventHandler(async (event) => {
             error: 'invalid id',
         }
     }
-    const data: EditSiteData = (await storage.getItem("data:" + id))['_data_']
-
+    const data: EditSiteData = (await storage.getItem("site:" + id))
 
     return {
         code: 200,

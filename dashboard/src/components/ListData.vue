@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import languageNames from '../scripts/languageNames.ts'
+import Icon from './Icon.vue'
 // get data from props
 const { data, count, id, type } = defineProps({
     data: {
@@ -40,9 +42,11 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' });
             <div class="flex items-center">
                 <div class="flex-1 min-w-0 ms-4">
                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white font-mono">
+                        <Icon :type="type" :data="index" class="inline-block mr-1" />
                         <span><router-link :to="`/websites/data/${id}?${type}=${encodeURIComponent(index)}`">
                             <span v-if="type == 'screen'">{{ index.replace(',', 'x') }}</span>
                             <span v-else-if="type == 'referrer' && (index == '' || index == 'undefined')">[None]</span>
+                            <span v-else-if="type == 'language'">{{ languageNames[index] }}</span>
                             <span v-else>{{ index }}</span>
                         </router-link></span>
                     </p>

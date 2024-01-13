@@ -63,12 +63,9 @@ export default eventHandler(async (event) => {
     // init storage
     const storage = useStorage('sasanqua')
 
-    const collectedData = (await storage.getItem("data:" + id)) || {}
 
-    collectedData['_data_'] = siteData
-    
     // set site data
-    await storage.setItem("data:" + id, collectedData)
+    await storage.setItem("site:" + id, siteData)
     
     const listData: ListData = (await storage.getItem("site:list") || {})
 

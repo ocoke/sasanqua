@@ -3,7 +3,7 @@
 export const getCachedSite = cachedFunction(async (id: string) => {
     const storage = useStorage('sasanqua')
 
-    const data: EditSiteData = (await storage.getItem("data:" + id))['_data_']
+    const data: EditSiteData = (await storage.getItem("site:" + id))
 
     return data
 
