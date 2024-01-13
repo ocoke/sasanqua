@@ -16,12 +16,12 @@
   "scripts": {
     "prepare": "nuxi prepare",
     "dev": "nuxi dev",
-    "build": "rollup -c && vite build && nitropack build",
+    "build": "rollup -c && nuxi build",
     "preview": "node .output/server/index.mjs",
-    "build-client": "rollup -c",
-    "build-server": "nitropack build",
+    "client:build": "rollup -c",
+    "server:build": "nuxi build",
     "test": "vitest",
-    "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nitropack dev & vitest"
+    "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nuxi dev & vitest"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

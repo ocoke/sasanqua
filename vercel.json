@@ -1,4 +1,4 @@
 {
     "buildCommand": "yarn build",
-    "framework": null
+    "framework": "nuxtjs"
 }
