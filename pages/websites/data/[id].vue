@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import {  getFilteredData,  } from '~/server/utils/scripts/filterResults'
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id
+const filterQuery = route.query
 
 const siteName = ref('')
 const siteDomain = ref('')
 const siteDescription = ref('')
+const filterModal = ref(false)
 const rangeValue = ref(1 * 24 * 60 * 60 * 1000)
 
 const timestamp = new Date().getTime()
@@ -54,7 +57,7 @@ setTimeout(() => {
             router.push('/signin')
         }
     })
-    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart&filter=${getDataQueryParams()}`, {
+    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +65,7 @@ setTimeout(() => {
         },
     }).then(res => res.json()).then(res => {
         if (res.code == 200) {
-            detailsData.value = res.data
+            detailsData.value = getFilteredData(res.data, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
         }
     })
 }, 100)
@@ -95,10 +98,26 @@ const convertTime = (s) => {
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
+const filter = ref([])
+
+for (let i in filterQuery) {
+    filter.value.push({
+        type: "and",
+        value: [
+            {
+                key: i,
+                value: filterQuery[i],
+                type: 'is'
+            }
+        ]
+    })
+}
+
+
 const changeRange = (e) => {
     const timestamp = new Date().getTime()
     const fromVal = timestamp - e.target.value
-    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart&filter=${getDataQueryParams()}`, {
+    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -106,12 +125,89 @@ const changeRange = (e) => {
         },
     }).then(res => res.json()).then(res => {
         if (res.code == 200) {
-            detailsData.value = res.data
+            detailsData.value = getFilteredData(res.data, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
         }
     })
 }
 
+const toggleFilterModal = () => {
+    filterModal.value = !filterModal.value
+}
 
+const getAvailableFilters = (data) => {
+    let result = {}
+    for (let i in data) {
+        if (i == 'data' || i == 'chart') {
+            continue
+        }
+        let resultKey = i == 'country' ? 'country_code'  : i
+        const obj = data[i]
+        for (let key in obj) {
+            if (result[resultKey]) {
+                result[resultKey].push(key)
+            } else {
+                result[resultKey] = [key]
+            }
+        }
+    }
+    return result
+}
+
+
+const uiText = {
+    url: 'URL',
+    referrer: 'Referrer',
+    country_code: 'Country',
+    language: 'Language',
+    browser: 'Browser',
+    os: 'OS',
+    device: 'Device',
+    screen: 'Screen',
+}
+
+const valAvailable = ref([])
+const selectedKey = ref('')
+const selectedIsNot = ref('')
+const selectedValue = ref('')
+const updateAvailableVal = (e) => {
+    const val = e.target.value
+    console.log(val)
+    valAvailable.value = getAvailableFilters(detailsData.value)[val]
+}
+
+const deleteRule = (index) => {
+    filter.value.splice(index, 1)
+}
+
+const addRule = (type, index) => {
+    if (!type) {
+        let data = filter.value[index]
+        data.value.push({
+            key: selectedKey.value,
+            value: selectedValue.value,
+            type: selectedIsNot.value == 'is' ? 'is' : 'not'
+        })
+    } else {
+        filter.value.push({
+            type,
+            value: [
+                {
+                    key: selectedKey.value,
+                    value: selectedValue.value,
+                    type: selectedIsNot.value == 'is' ? 'is' : 'not'
+                }
+            ]
+        })
+    }
+    selectedKey.value = selectedValue.value = selectedIsNot.value = ""
+
+}
+
+const updateData = () => {
+    // close tab
+    toggleFilterModal()
+    detailsData.value = getFilteredData(detailsData.value, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
+}
 </script>
 <template>
     <div class="w-full max-w-5xl mx-auto" v-if="siteName && siteDomain">
@@ -127,8 +223,21 @@ const changeRange = (e) => {
         <div class="mt-4">
             <div class="sasanqua-item-card">
                 <div class="text-xl text-gray-900 dark:text-white font-bold flex items-center">
-                    <span>Data</span>
-                    <div class="ml-auto">
+                    <div class="grid gap-2">
+                        <span>Data</span>
+                        <div class="text-sm font-medium">
+                            <div class="mb-2" v-for="i in filter">
+                                
+                                <span v-for="(item, index) in i.value" >
+                                    <span v-if="index != 0">{{ i.type }}</span>
+                                    <code class="bg-gray-100 dark:bg-gray-900 p-1 rounded mx-1">{{ item.key }} {{ item.type == 'is' ? '=' : '!=' }} {{ item.value }}</code>
+                                </span>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-auto grid gap-2">
                         <select v-model="rangeValue" @input="changeRange"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option disabled>Range</option>
@@ -138,14 +247,14 @@ const changeRange = (e) => {
                             <option :value="90 * 24 * 60 * 60 * 1000">Last 90 Days</option>
                             <option :value="365 * 24 * 60 * 60 * 1000">Last Year</option>
                         </select>
+                        <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            @click="toggleFilterModal"
+                        >Add Filter</button>
                     </div>
                 </div>
-
-
-
             </div>
 
-
+            
 
             <div class="grid gap-4 mt-4 max-w-full w-full overflow-hidden">
                 <div class="sasanqua-item-card">
@@ -165,7 +274,7 @@ const changeRange = (e) => {
                 </div>
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
-                    <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country"
+                    <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
                         v-if="detailsData.country" />
                 </div>
                 <div class="sasanqua-item-card">
@@ -196,6 +305,102 @@ const changeRange = (e) => {
         </div>
 
     </div>
+
+
+    <div v-show="filterModal" tabindex="-1" aria-hidden="true" class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add Filter
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" @click="toggleFilterModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+                <div class="bg-gray-100 py-2 rounded-lg" v-for="(item, itemIndex) in filter">
+                    <div class="flex items-center mt-2" v-for="(i, index) in item.value">
+                        <span v-if="index != 0">{{ item.type }}</span>
+                        <select class="inline-select w-auto" @change="updateAvailableVal">
+                            <option default>{{ uiText[i.key] }}</option>
+                        </select>
+                        <!-- select is/not -->
+                        <select class="inline-select w-auto">
+                            <option default>{{ i.type == 'is' ? 'is' : 'is not' }}</option>
+                        </select>
+                        <select class="inline-select w-full">
+                            <option default>{{ i.value }}</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <select class="inline-select w-auto" @change="updateAvailableVal" v-model="selectedKey">
+                            <option default></option>
+                            <option v-for="(val, key) in getAvailableFilters(detailsData)" :value="key">{{ uiText[key] }}</option>
+                        </select>
+                        <!-- select is/not -->
+                        <select class="inline-select w-auto" v-model="selectedIsNot">
+                            <option default></option>
+                            <option>is</option>
+                            <option>is not</option>
+                        </select>
+                        <select class="inline-select w-full" v-model="selectedValue">
+                            <option default></option>
+                            <option v-for="v in valAvailable">{{ v }}</option>
+                        </select>
+                    </div>
+                    <div class="flex">
+                        <span class="flex-1"></span>
+                        <div>
+                            <button type="button" class="filter-action ml-auto mt-2" @click="addRule(false, itemIndex)">
+                                + {{ item.type.slice(0, 1).toUpperCase() + item.type.slice(1)  }}
+                            </button>
+                            <button type="button" class="filter-action ml-auto mt-2" @click="deleteRule(itemIndex)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <select class="inline-select w-auto" @change="updateAvailableVal" v-model="selectedKey">
+                        <option default></option>
+                        <option v-for="(val, key) in getAvailableFilters(detailsData)" :value="key">{{ uiText[key] }}</option>
+                    </select>
+                    <!-- select is/not -->
+                    <select class="inline-select w-auto" v-model="selectedIsNot">
+                        <option default></option>
+                        <option>is</option>
+                        <option>is not</option>
+                    </select>
+                    <select class="inline-select w-full" v-model="selectedValue">
+                        <option default></option>
+                        <option v-for="v in valAvailable">{{ v }}</option>
+                    </select>
+                </div>
+                <div>
+                    <!-- 2btns: and/or -->
+                    <button type="button" class="filter-action" @click="addRule('and')">
+                        + And
+                    </button>
+                    <button type="button" class="filter-action" @click="addRule('or')">
+                        + Or
+                    </button>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-auto"
+                @click="updateData">Save</button>
+            </div>
+        </div>
+    </div></div>
+    <div v-show="filterModal" class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
 </template>
 <style>
 .CardNumber {
@@ -208,4 +413,12 @@ const changeRange = (e) => {
 
 .sasanqua-item-card {
     @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
-}</style>
+}
+
+.inline-select {
+    @apply inline-block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mx-2;
+}
+.filter-action {
+    @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mx-2;
+}
+</style>

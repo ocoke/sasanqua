@@ -236,7 +236,7 @@ onUnmounted(() => {
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
-                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country" v-if="detailsData.country" />
+                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code" v-if="detailsData.country" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
