@@ -1,6 +1,10 @@
 export const getDataResults = (filteredData, query: string, from, to) => {
     const queries = (<string>query || '').split(',')
     let response = {}
+    if (queries.includes('data')) {
+        filteredData.sort((a, b) => b.date - a.date);
+        response['data'] = filteredData
+    }
     if (queries.includes('url')) {
 
         const urls = filteredData.map(item => item.data.data.url);
@@ -241,6 +245,9 @@ export const filterIs = (item, key, val) => {
 
 export const getFilteredData = (resp: object, filter, from, to) => {
     let data = resp.data
+    if (!data) {
+        return {}
+    }
     for (let rule of filter) {
         let ruleType = rule.type
         let ruleValue = rule.value
