@@ -35,6 +35,8 @@ interface DetailsData {
     os: object,
     device: object,
     chart: object,
+    title: object,
+    query: object,  
 }
 
 const todayData = ref(<ViewsData>{})
@@ -83,7 +85,7 @@ setTimeout(() => {
             thisWeekData.value = res.data
         }
     })
-    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
+    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -139,7 +141,7 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 const changeRange = (e) => {
     const timestamp = new Date().getTime()
     const fromVal = timestamp - e.target.value
-    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
+    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -229,7 +231,14 @@ onUnmounted(() => {
                         <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url" v-if="detailsData.url"/>
                     </div>
                 <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
-                    
+                    <div class="sasanqua-item-card">
+                        <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
+                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.title" />
+                    </div>
+                    <div class="sasanqua-item-card">
+                        <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
+                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.query" />
+                    </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
                         <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer" v-if="detailsData.referrer" />
@@ -255,10 +264,7 @@ onUnmounted(() => {
                         <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device" v-if="detailsData.device" />
                     </div>
                    
-                    <div class="sasanqua-item-card">
-                        <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Screens</p>
-                        <ListData :data="detailsData.screen" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.screen" />
-                    </div>
+
                 </div>
             </div>
         </div>

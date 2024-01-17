@@ -186,13 +186,38 @@ export const getDataResults = (filteredData, query: string, from, to) => {
         response['realtime'] = filteredData
     }
 
+    if (queries.includes('title')) {
+        const titles = filteredData.map(item => item.data.data.title);
+        const titleCount = titles.reduce((acc, title) => {
+            acc[title] = (acc[title] || 0) + 1;
+            return acc;
+        }
+            , {});
+        response['title'] = titleCount
+    }
+
+    if (queries.includes('query')) {
+        const queries = filteredData.map(item => item.data.data.query);
+        const queryCount = queries.reduce((acc, query) => {
+            for (let key in query) {
+                let accKey = `${key}=${query[key]}`
+                acc[accKey] = (acc[accKey] || 0) + 1;
+            }
+            return acc
+        }
+            , {});
+        response['query'] = queryCount
+    }
+    
+
+
     return response
+
 
 }
 
 export const filterIs = (item, key, val) => {
     try {
-        console.log
         if (!item.data.data) {
             return false
         } else if (item.data.data[key] && item.data.data[key] === val) {
@@ -250,7 +275,7 @@ export const getFilteredData = (resp: object, filter, from, to) => {
 
     data = {
         data,
-        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart', from, to)
+        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query', from, to)
     }
     return data
 }
