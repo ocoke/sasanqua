@@ -233,11 +233,11 @@ onUnmounted(() => {
                 <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
-                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.title" />
+                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title" v-if="detailsData.title" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
-                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="screen" v-if="detailsData.query" />
+                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query" v-if="detailsData.query" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
