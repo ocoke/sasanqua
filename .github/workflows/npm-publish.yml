@@ -21,8 +21,7 @@ jobs:
           yarn
       - name: Test
         run: |
-          yarn build
-          yarn preview & yarn test
+          yarn test
 
 
   publish-npm:
@@ -40,10 +39,10 @@ jobs:
             yarn
       - name: Build
         run: |
-             yarn build
-             rm -rf dist/
-             mkdir dist
-             mv public/script.js dist/script.js
+             yarn client:build
+             rm -rf client-dist/
+             mkdir client-dist
+             mv public/script.js client-dist/script.js
       - name: Publish
         run: npm publish
         env:
