@@ -61,4 +61,7 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' });
             </div>
         </li>
     </ul>
+    <p class="text-center" v-if="Object.keys(data).length == 0">
+        No Data Available
+    </p>
 </template>

@@ -36,7 +36,7 @@ interface DetailsData {
     device: object,
     chart: object,
     title: object,
-    query: object,  
+    query: object,
 }
 
 const todayData = ref(<ViewsData>{})
@@ -176,9 +176,23 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <div class="w-full max-w-5xl mx-auto" v-if="siteName && siteDomain">
-        <p class="text-3xl text-gray-900 dark:text-white mb-3 font-bold flex items-center"><span>{{ siteName }}</span><span class="text-sm ml-8 flex items-center" v-if="liveUser.visitor"><div class="rounded-full w-3 h-3 mr-2 bg-green-500 animate-pulse"></div>{{ liveUser.visitor }} current visitors</span></p>
-        <p class="text-xl text-gray-900 dark:text-white mb-6 opacity-70 font-mono">{{ siteDomain }}</p>
+    <div class="w-full max-w-5xl mx-auto flex items-center" v-if="siteName && siteDomain">
+        <div>
+            <p class="text-3xl text-gray-900 dark:text-white mb-3 font-bold flex items-center"><span>{{ siteName
+            }}</span><span class="text-sm ml-8 flex items-center" v-if="liveUser.visitor">
+                    <div class="rounded-full w-3 h-3 mr-2 bg-green-500 animate-pulse"></div>{{ liveUser.visitor }} current
+                    visitors
+                </span></p>
+            <p class="text-xl text-gray-900 dark:text-white mb-6 opacity-70 font-mono">{{ siteDomain }}</p>
+        </div>
+        <div class="ml-auto grid gap-2 mb-4 sm:grid-cols-2">
+            <button type="button"
+                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                @click="router.push('/edit?id='+id)">Edit</button>
+            <button type="button"
+                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                @click="router.push('/websites/data/'+id)">Data</button>
+        </div>
     </div>
     <div class="w-full max-w-5xl mx-auto" v-else>
         <div class="h-8 w-48 rounded skeleton"></div>
@@ -211,59 +225,69 @@ onUnmounted(() => {
                 <div class="text-xl text-gray-900 dark:text-white mb-3 font-bold flex items-center">
                     <span>Data</span>
                     <div class="ml-auto">
-                        <select v-model="rangeValue" @input="changeRange" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option disabled>Range</option>
-                        <option :value="1 * 24 * 60 * 60 * 1000" selected>Last 24 Hours</option>
-                        <option :value="7 * 24 * 60 * 60 * 1000">Last 7 Days</option>
-                        <option :value="30 * 24 * 60 * 60 * 1000">Last 30 Days</option>
-                        <option :value="90 * 24 * 60 * 60 * 1000">Last 90 Days</option>
-                        <option :value="365 * 24 * 60 * 60 * 1000">Last Year</option>
+                        <select v-model="rangeValue" @input="changeRange"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option disabled>Range</option>
+                            <option :value="1 * 24 * 60 * 60 * 1000" selected>Last 24 Hours</option>
+                            <option :value="7 * 24 * 60 * 60 * 1000">Last 7 Days</option>
+                            <option :value="30 * 24 * 60 * 60 * 1000">Last 30 Days</option>
+                            <option :value="90 * 24 * 60 * 60 * 1000">Last 90 Days</option>
+                            <option :value="365 * 24 * 60 * 60 * 1000">Last Year</option>
                         </select>
                     </div>
                 </div>
-               
+
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Charts</p>
                     <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
                 <div class="sasanqua-item-card mt-4">
-                        <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
-                        <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url" v-if="detailsData.url"/>
-                    </div>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
+                    <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url"
+                        v-if="detailsData.url" />
+                </div>
                 <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
-                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title" v-if="detailsData.title" />
+                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title"
+                            v-if="detailsData.title" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
-                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query" v-if="detailsData.query" />
+                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query"
+                            v-if="detailsData.query" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
-                        <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer" v-if="detailsData.referrer" />
+                        <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer"
+                            v-if="detailsData.referrer" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
-                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code" v-if="detailsData.country" />
+                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
+                            v-if="detailsData.country" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
-                        <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" type="language" v-if="detailsData.language" />
+                        <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" type="language"
+                            v-if="detailsData.language" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Browsers</p>
-                        <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" type="browser" v-if="detailsData.browser" />
+                        <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" type="browser"
+                            v-if="detailsData.browser" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">OS</p>
-                        <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" type="os" v-if="detailsData.os" />
+                        <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" type="os"
+                            v-if="detailsData.os" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Devices</p>
-                        <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device" v-if="detailsData.device" />
+                        <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device"
+                            v-if="detailsData.device" />
                     </div>
-                   
+
 
                 </div>
             </div>
@@ -271,8 +295,7 @@ onUnmounted(() => {
 
     </div>
 </template>
-<style>
-.CardNumber {
+<style>.CardNumber {
     @apply text-2xl font-bold mr-3 font-mono;
 }
 
@@ -282,6 +305,4 @@ onUnmounted(() => {
 
 .sasanqua-item-card {
     @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
-}
-
-</style>
+}</style>

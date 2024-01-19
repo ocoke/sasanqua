@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {  getFilteredData,  } from '~/server/utils/scripts/filterResults'
+import WorldMap from '~/components/WorldMap.vue';
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id
@@ -57,7 +58,7 @@ setTimeout(() => {
             router.push('/signin')
         }
     })
-    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
+    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=data`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ for (let i in filterQuery) {
 const changeRange = (e) => {
     const timestamp = new Date().getTime()
     const fromVal = timestamp - e.target.value
-    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart`, {
+    fetch(`/api/data/results?id=${id}&from=${fromVal}&to=${timestamp}&query=data`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -252,6 +253,15 @@ const updateData = () => {
                         >Add Filter</button>
                     </div>
                 </div>
+                <div class="grid grid-cols-3 gap-2 mt-8">
+                    <!-- views / visitors / avg visiting time / score -->
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visit) || 0 }}</span>
+                        Views</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visitor) || 0 }}</span>
+                        Visitors</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{
+                        convertTime(detailsData.visit_time) || 'N/A' }}</span> Avg Visit Time</div>
+                </div>
             </div>
 
             
@@ -268,14 +278,33 @@ const updateData = () => {
                         v-if="detailsData.url" />
                 </div>
                 <div class="sasanqua-item-card">
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
+                    <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title"
+                        v-if="detailsData.title" />
+                </div>
+                <div class="sasanqua-item-card">
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
+                    <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query"
+                        v-if="detailsData.query" />
+                </div>
+                <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
                     <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer"
                         v-if="detailsData.referrer" />
                 </div>
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
-                    <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
+                    <div class="lg:flex lg:min-h-[400px]">
+                        <div class="lg:w-2/5">
+                            <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
                         v-if="detailsData.country" />
+                        </div>
+                        
+                        <div class="lg:w-3/5">
+                            <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
+                            v-if="detailsData.country"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
@@ -404,11 +433,12 @@ const updateData = () => {
 </template>
 <style>
 .CardNumber {
-    @apply text-2xl font-bold mr-3 font-mono;
+    @apply text-3xl font-bold mr-3 font-mono;
 }
 
 .CardNumberTitle {
-    @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center opacity-80;
+    @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center;
+    flex-direction: column;
 }
 
 .sasanqua-item-card {
