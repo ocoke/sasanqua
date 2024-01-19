@@ -84,6 +84,10 @@ describe('Sasanqua Test', async () => {
             "speedInsights": true,
         }
     }
+
+    const settings = {
+        enableSignup: false
+    }
     test('Sign in', async () => {
         const data = await $fetch(url(`/api/user/signin`), {
             method: 'POST',
@@ -117,7 +121,7 @@ describe('Sasanqua Test', async () => {
         siteId = data.data.id
     })
 
-    test('Get Website', async () => {
+    test('Get Website Data', async () => {
         const data = await $fetch(url(`/api/site/get`), {
             method: "POST",
             headers: {
@@ -129,12 +133,7 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(200)
-        expect(data.data.site).toBeTypeOf('object')
-        expect(data.data.site.name).toEqual(testSiteData.name)
-        expect(data.data.site.description).toEqual(testSiteData.description)
-        expect(data.data.site.domain).toEqual(testSiteData.domain)
-        expect(data.data.site.features.speedInsights).toEqual(testSiteData.features.speedInsights)
-        expect(data.data.site.features.visitTime).toEqual(testSiteData.features.visitTime)
+        expect(data.data).toBe(testSiteData)
     })
 
     test('Get Website List', async () => {
@@ -147,5 +146,83 @@ describe('Sasanqua Test', async () => {
         })
         expect(data.code).toEqual(200)
         expect(data.data).toBeTypeOf('object')
+    })
+
+    // edit website
+    testSiteData.name = "test2"
+    testSiteData.description = "hello world"
+
+    test('Add Website', async () => {
+        const data = await $fetch(url(`/api/site/edit`), {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                id: siteId,
+                data: testSiteData
+            })
+        })
+        expect(data.code).toEqual(200)
+        expect(data.data.id).toBeTypeOf('string')
+        siteId = data.data.id
+    })
+
+    test('Get Website Data', async () => {
+        const data = await $fetch(url(`/api/site/get`), {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                id: siteId
+            })
+        })
+        expect(data.code).toEqual(200)
+        expect(data.data).toBe(testSiteData)
+    })
+
+    // Settings
+
+    test('Edit Settings: Disable Signing up', async () => {
+        const data = await $fetch(url(`/api/dash/settings`), {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                data: settings
+            })
+        })
+        expect(data.code).toEqual(200)
+    })
+
+    test('Get Settings', async () => {
+        const data = await $fetch(url(`/api/dash/settings`), {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+        expect(data.code).toEqual(200)
+        expect(data.data).toBe(settings)
+    })
+
+    test('Sign up (Disabled)', async () => {
+        const data = await $fetch(url(`/api/user/signup`), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: 'test2',
+                password: 'test2'
+            })
+        })
+        expect(data.code).toEqual(400)
     })
 })
