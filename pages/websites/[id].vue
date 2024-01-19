@@ -188,10 +188,10 @@ onUnmounted(() => {
         <div class="ml-auto grid gap-2 mb-4 sm:grid-cols-2">
             <button type="button"
                 class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                @click="router.push('/edit?id='+id)">Edit</button>
+                @click="router.push('/edit?id=' + id)">Edit</button>
             <button type="button"
                 class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                @click="router.push('/websites/data/'+id)">Data</button>
+                @click="router.push('/websites/data/' + id)">Data</button>
         </div>
     </div>
     <div class="w-full max-w-5xl mx-auto" v-else>
@@ -295,14 +295,18 @@ onUnmounted(() => {
 
     </div>
 </template>
-<style>.CardNumber {
+<style scoped>
+.CardNumber {
     @apply text-2xl font-bold mr-3 font-mono;
 }
-
 .CardNumberTitle {
     @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center opacity-80;
 }
+</style>
+<style>
+
 
 .sasanqua-item-card {
     @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
-}</style>
+}
+</style>

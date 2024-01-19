@@ -431,16 +431,17 @@ const updateData = () => {
     </div></div>
     <div v-show="filterModal" class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40"></div>
 </template>
-<style>
+<style scoped>
 .CardNumber {
-    @apply text-3xl font-bold mr-3 font-mono;
+    @apply text-3xl font-bold font-mono;
 }
 
 .CardNumberTitle {
     @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center;
     flex-direction: column;
 }
-
+</style>
+<style>
 .sasanqua-item-card {
     @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
 }
