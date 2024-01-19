@@ -21,8 +21,9 @@ export default eventHandler(async (event) => {
 
     const userData: UserData = await storage.getItem("user:" + username)
     const settings = await storage.getItem("conf")
+    const hasSettings = await storage.hasItem("conf")
 
-    if (!settings || !settings.enableSignup) {
+    if ((hasSettings && settings) && !settings.enableSignup) {
         return {
             code: 400,
             error: 'signup is disabled',
