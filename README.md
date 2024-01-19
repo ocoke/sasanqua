@@ -2,7 +2,20 @@
 
 > 📈 Simple, privacy-friendly, real-time traffic insights at the edge.
 
-## Getting Started
+## ✨ Why Sasanqua?
+
+- [x] **Easy Deploy**: Sasanqua can deploy on multiple platforms and databases. You can choose the best for you.
+- [x] **Privacy Friendly**: Sasanqua doesn't use cookies, and it is GDPR & CCPA compliant.
+- [x] **Easy-to-use**: Sasanqua provides a easy-to-use dashboard for you to quickly get started.
+- [x] **Powerful Filter**: Sasanqua provides a powerful filter in the dashboard to help you get detailed information.
+- [x] **Open Source**: Sasanqua is an open-source project, You can have 100% control over your data.
+- [ ] **Speed Insights**: Sasanqua helps you get a real experience score from the performance metrics of every user.
+- [ ] **Integrated Plugins**: Sasanqua provides multiple plugins for different frameworks. You can use them to integrate with your application or make Sasanqua become a 1st party analyzer.
+
+
+
+
+## 🙌 Getting Started
 
 
 ### Vercel + Vercel KV
