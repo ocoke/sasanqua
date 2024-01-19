@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import { setup, fetch, $fetch, url } from '@nuxt/test-utils/e2e'
+import collect from '~/server/api/data/collect'
 
 
 describe('Sasanqua Test', async () => {
@@ -133,7 +134,7 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(200)
-        expect(data.data).toBe(testSiteData)
+        expect(data.data).toStrictEqual(testSiteData)
     })
 
     test('Get Website List', async () => {
@@ -181,7 +182,7 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(200)
-        expect(data.data).toBe(testSiteData)
+        expect(data.data).toStrictEqual(testSiteData)
     })
 
     // Settings
@@ -209,7 +210,7 @@ describe('Sasanqua Test', async () => {
             },
         })
         expect(data.code).toEqual(200)
-        expect(data.data).toBe(settings)
+        expect(data.data).toStrictEqual(settings)
     })
 
     test('Sign up (Disabled)', async () => {
@@ -224,5 +225,33 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(400)
+    })
+
+
+    const generateCollectData = () => {
+        return {
+            hostname: 'example.com',
+            language: 'en-US',
+            referrer: 'https://example.com',
+            screen: [1920, 1080],
+            title: 'Example.com',
+            url: '/',
+            query: '?test=' + Math.random(),
+        }
+    }
+    test('Collect Data', async () => {
+        const data = await $fetch(url(`/api/data/collect`), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: siteId,
+                payload: {
+                    data: generateCollectData(),
+                }
+            })
+        })
+        expect(data.code).toEqual(200)
     })
 })
