@@ -134,7 +134,7 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(200)
-        expect(data.data).toStrictEqual(testSiteData)
+        expect(data.data.site).toStrictEqual(testSiteData)
     })
 
     test('Get Website List', async () => {
@@ -182,7 +182,7 @@ describe('Sasanqua Test', async () => {
             })
         })
         expect(data.code).toEqual(200)
-        expect(data.data).toStrictEqual(testSiteData)
+        expect(data.data.site).toStrictEqual(testSiteData)
     })
 
     // Settings

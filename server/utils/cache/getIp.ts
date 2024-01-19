@@ -25,18 +25,27 @@ export const getIp = cachedFunction(async (ip: string) => {
         }
     }
 
-    const geo = await $fetch("https://ipapi.co/" + ip + "/json")
-    if (geo.reserved) {
-        return {
-            country_code: 'Reserved',
-            country: 'Reserved',
-            city: 'Reserved',
+    try {
+        const geo = await $fetch("https://ipapi.co/" + ip + "/json")
+        if (geo.reserved) {
+            return {
+                country_code: 'Reserved',
+                country: 'Reserved',
+                city: 'Reserved',
+            }
         }
-    }
-    return {
-        city: geo.city || 'Unknown',
-        country: geo.country_name || 'Unknown',
-        country_code: geo.country_code || 'Unknown',
+        return {
+            city: geo.city || 'Unknown',
+            country: geo.country_name || 'Unknown',
+            country_code: geo.country_code || 'Unknown',
+        }
+    } catch(e) {
+        console.warn(e)
+        return {
+            country_code: 'Unknown',
+            country: 'Unknown',
+            city: 'Unknown',
+        }
     }
 
 }, {
