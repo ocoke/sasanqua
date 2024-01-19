@@ -6,6 +6,9 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
+    modules: [
+        '@nuxt/test-utils/module'
+    ],
     app: {
         head: {
             title: "Sasanqua Analytics",

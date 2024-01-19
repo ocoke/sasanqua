@@ -5,7 +5,7 @@ export default defineWorkspace([
   'packages/*',
   {
     // add "extends" to merge two configs together
-    extends: './vite.config.js',
+    // extends: './vite.config.js',
     test: {
       include: ['tests/dash/**/*.test.{ts,js}'],
       // it is recommended to define a name when using inline configs
