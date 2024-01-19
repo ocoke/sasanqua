@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { setup, fetch, $fetch, url } from '@nuxt/test-utils/e2e'
 
 
-describe('Sasanqua: User', async () => {
+describe('Sasanqua Test', async () => {
     await setup({
         port: 3333,
         rootDir: '../',
@@ -74,14 +74,7 @@ describe('Sasanqua: User', async () => {
         expect(data.code).toEqual(400)
     })
 
-})
-
-describe('Sasanqua: Site', async () => {
-    await setup({
-        port: 3333,
-    })
     let siteId: string = ""
-    let token: string = ""
     const testSiteData = {
         name: "test",
         description: "test",
@@ -92,7 +85,7 @@ describe('Sasanqua: Site', async () => {
         }
     }
     test('Sign in', async () => {
-        const data = await fetch(url(`/api/user/signin`), {
+        const data = await $fetch(url(`/api/user/signin`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -108,7 +101,7 @@ describe('Sasanqua: Site', async () => {
     })
 
     test('Add Website', async () => {
-        const data = await fetch(url(`/api/site/edit`), {
+        const data = await $fetch(url(`/api/site/edit`), {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +118,7 @@ describe('Sasanqua: Site', async () => {
     })
 
     test('Get Website', async () => {
-        const data = await fetch(url(`/api/site/get`), {
+        const data = await $fetch(url(`/api/site/get`), {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +138,7 @@ describe('Sasanqua: Site', async () => {
     })
 
     test('Get Website List', async () => {
-        const data = await fetch(url(`/api/site/list`), {
+        const data = await $fetch(url(`/api/site/list`), {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
