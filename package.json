@@ -21,7 +21,10 @@
     "client:build": "rollup -c",
     "server:build": "nuxi build",
     "test": "vitest",
-    "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nuxi dev & vitest"
+    "server:test": "PORT=3002;SASANQUA_TEST_PORT=3002;DATABASE_NAME=memory nuxi dev & vitest",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -44,6 +47,7 @@
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13",
     "vite": "^5.0.10",
+    "vitepress": "^1.0.0-rc.39",
     "vue-chartjs": "^5.3.0",
     "web-vitals": "^3.5.1"
   },

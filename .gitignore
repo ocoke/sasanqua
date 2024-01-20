@@ -10,3 +10,5 @@ dist
 public/script.js
 public/assets
 public/index.html
+docs/.vitepress/cache
+docs/.vitepress/dist 
