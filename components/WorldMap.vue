@@ -68,5 +68,5 @@ onMounted(() => {
 }
 
 #svgMap {
-    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
 }</style>

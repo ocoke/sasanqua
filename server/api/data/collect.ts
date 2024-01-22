@@ -1,6 +1,6 @@
 import { UAParser } from 'ua-parser-js'
 import { v4 as uuid, validate as isUuid } from "uuid"
-
+import type { CollectedSiteData, CollectData, EditSiteData, GeoIp, UaData } from '~/server/utils/typed'
 
 export default eventHandler(async (event) => {
     const data = await readBody(event)
@@ -72,7 +72,6 @@ export default eventHandler(async (event) => {
     if (!siteData.features.visitTime) {
         // remove useless data
         delete thisData.visitTime
-        delete thisData.sid
     }
 
     // push data

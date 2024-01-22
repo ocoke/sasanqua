@@ -7,6 +7,7 @@ interface CollectedSiteData {
         sid: string,
         visitTime: number,
         date: number,
+        query: string,
     }[],
 }
 interface CollectData {
@@ -17,6 +18,7 @@ interface CollectData {
         screen: number[],
         title: string,
         url: string,
+        query: object,
     },
     speed: {
         FCP: number,
@@ -90,3 +92,14 @@ interface ListData {
     [key: string]: string,
 }
 
+
+export type {
+    CollectedSiteData,
+    CollectData,
+    GeoIp,
+    UaData,
+    EditSiteData,
+    userJWT,
+    userData,
+    ListData,
+}

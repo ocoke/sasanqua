@@ -295,16 +295,15 @@ const updateData = () => {
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
                     <div class="lg:flex lg:min-h-[400px]">
-                        <div class="lg:w-3/5">
-                            <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
-                            v-if="detailsData.country"/>
-                        </div>
                         <div class="lg:w-2/5">
                             <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
                         v-if="detailsData.country" />
                         </div>
                         
-                        
+                        <div class="lg:w-3/5">
+                            <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
+                            v-if="detailsData.country"/>
+                        </div>
                     </div>
                 </div>
                 <div class="sasanqua-item-card">
