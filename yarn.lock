@@ -3474,9 +3474,9 @@ h3@^1.10.0, h3@^1.8.2, h3@^1.9.0:
     unenv "^1.8.0"
 
 happy-dom@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-13.2.0.tgz#ff27977deaf0c55c230a4eb93371902bbb745fd8"
-  integrity sha512-aeFD9M5d1sN618nOpWy/76IiU5/UJxdYydPdzpXxEn4r7MQByrmtoH1iU9v8v9bJJ0fMte6OAMy6rDD/mGawfg==
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-13.2.1.tgz#16362e4a9681b2d4e724571a2a3077e7acd75201"
+  integrity sha512-AwSV0OPsLxOu1nsKsw+1aakYGiCgLcYed/BPLMGe4lOxAZY14UWGAw8nB7SSnHRltBPwcM6Rf+5hcMXcU7qxaQ==
   dependencies:
     entities "^4.5.0"
     webidl-conversions "^7.0.0"
