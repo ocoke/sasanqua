@@ -253,14 +253,36 @@ const updateData = () => {
                         >Add Filter</button>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-2 mt-8">
+                <div class="grid grid-cols-2 gap-2 mt-8">
                     <!-- views / visitors / avg visiting time / score -->
                     <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visit) || 0 }}</span>
                         Views</div>
                     <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visitor) || 0 }}</span>
                         Visitors</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{
-                        convertTime(detailsData.visit_time) || 'N/A' }}</span> Avg Visit Time</div>
+
+                </div>
+            </div>
+            <div class="sasanqua-item-card mt-4">
+                <div class="text-xl text-gray-900 dark:text-white font-bold flex items-center">
+                    <div class="grid gap-2">
+                        <span>Speed Insights</span>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-8">
+                    <!-- res / fcp / lcp / cls / fid / ttfb -->
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.res) || 0 }}</span>
+                        Real Experience Score</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.fcp / 1000) || 0 }}s</span>
+                        First Contentful Paint</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.lcp / 1000) || 0 }}s</span>
+                        Largest Contentful Paint</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.cls) || 0 }}</span>
+                        Cumulative Layout Shift</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.fid) || 0 }}<span class="mr-1"></span>ms</span>
+                        First Input Delay</div>
+                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.ttfb / 1000) || 0 }}s</span>
+                        Time to First Byte</div>
                 </div>
             </div>
 
@@ -278,16 +300,6 @@ const updateData = () => {
                         v-if="detailsData.url" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
-                    <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title"
-                        v-if="detailsData.title" />
-                </div>
-                <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
-                    <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query"
-                        v-if="detailsData.query" />
-                </div>
-                <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
                     <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer"
                         v-if="detailsData.referrer" />
@@ -295,15 +307,16 @@ const updateData = () => {
                 <div class="sasanqua-item-card">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
                     <div class="lg:flex lg:min-h-[400px]">
+                        <div class="lg:w-3/5">
+                            <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
+                            v-if="detailsData.country"/>
+                        </div>
                         <div class="lg:w-2/5">
                             <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
                         v-if="detailsData.country" />
                         </div>
                         
-                        <div class="lg:w-3/5">
-                            <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
-                            v-if="detailsData.country"/>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="sasanqua-item-card">

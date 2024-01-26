@@ -212,6 +212,93 @@ export const getDataResults = (filteredData, query: string, from, to) => {
             , {});
         response['query'] = queryCount
     }
+
+    // speed insights
+
+    if (queries.includes('fcp')) {
+        // average fcp
+        const averageFCP = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const fcp = item.data.speed.FCP;
+            if (!fcp) {
+                return acc;
+            }
+            return acc + fcp;
+
+        }, 0) / filteredData.length;
+        response['fcp'] = averageFCP
+    }
+     
+    // lcp
+    if (queries.includes('lcp')) {
+        // average lcp
+        const averageLCP = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const lcp = item.data.speed.LCP;
+            if (!lcp) {
+                return acc;
+            }
+            return acc + lcp;
+
+        }, 0) / filteredData.length;
+        response['lcp'] = averageLCP
+    }
+
+    // ttfb
+    if (queries.includes('ttfb')) {
+        // average ttfb
+        const averageTTFB = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const ttfb = item.data.speed.TTFB;
+            if (!ttfb) {
+                return acc;
+            }
+            return acc + ttfb;
+
+        }, 0) / filteredData.length;
+        response['ttfb'] = averageTTFB
+    }
+
+    // cls
+    if (queries.includes('cls')) {
+        
+        // average cls
+        const averageCLS = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const cls = item.data.speed.CLS;
+            if (!cls) {
+                return acc;
+            }
+            return acc + cls;
+        }, 0) / filteredData.length;
+        response['cls'] = averageCLS
+    }
+
+    // fid
+    if (queries.includes('fid')) {
+        // average fid
+        const averageFID = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const fid = item.data.speed.FID;
+            if (!fid) {
+                return acc;
+            }
+            return acc + fid;
+
+        }, 0) / filteredData.length;
+        response['fid'] = averageFID
+    }
+
     
 
 
@@ -282,7 +369,7 @@ export const getFilteredData = (resp: object, filter, from, to) => {
 
     data = {
         data,
-        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query', from, to)
+        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query,fcp,lcp,ttfb,cls,fid', from, to)
     }
     return data
 }
