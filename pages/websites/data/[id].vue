@@ -207,6 +207,9 @@ const addRule = (type, index) => {
 
 const updateData = () => {
     // close tab
+    if (filter.value.length == 0) {
+        addRule('and')
+    }
     toggleFilterModal()
     detailsData.value = getFilteredData(detailsData.value, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
 }
