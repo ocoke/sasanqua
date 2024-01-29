@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {  getFilteredData,  } from '~/server/utils/scripts/filterResults'
-import WorldMap from '~/components/WorldMap.vue';
+import WorldMap from '~/components/WorldMap.vue'
+import SpeedInsights from '~/components/SpeedInsights.vue'
 const route = useRoute()
 const router = useRouter()
 const id = route.params.id
@@ -209,6 +210,8 @@ const updateData = () => {
     toggleFilterModal()
     detailsData.value = getFilteredData(detailsData.value, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
 }
+
+
 </script>
 <template>
     <div class="w-full max-w-5xl mx-auto" v-if="siteName && siteDomain">
@@ -270,21 +273,7 @@ const updateData = () => {
                     </div>
 
                 </div>
-                <div class="grid grid-cols-2 gap-2 mt-8">
-                    <!-- res / fcp / lcp / cls / fid / ttfb -->
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.res) || 0 }}</span>
-                        Real Experience Score</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.fcp / 1000) || 0 }}s</span>
-                        First Contentful Paint</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.lcp / 1000) || 0 }}s</span>
-                        Largest Contentful Paint</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.cls) || 0 }}</span>
-                        Cumulative Layout Shift</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.fid) || 0 }}<span class="mr-1"></span>ms</span>
-                        First Input Delay</div>
-                    <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.ttfb / 1000) || 0 }}s</span>
-                        Time to First Byte</div>
-                </div>
+                <SpeedInsights :data="detailsData" />
             </div>
 
             
