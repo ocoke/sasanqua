@@ -5,7 +5,7 @@ import languageNames from '../scripts/languageNames.ts'
 import countryNames from '../scripts/countryNames.ts'
 import Icon from './Icon.vue'
 // get data from props
-const { data, count, id, type } = defineProps({
+const { data, count, id, type, range } = defineProps({
     data: {
         type: Object,
         required: true,
@@ -21,6 +21,10 @@ const { data, count, id, type } = defineProps({
     type: {
         type: String,
         required: true,
+    },
+    range: {
+        type: Number,
+        required: false,
     }
 })
 
@@ -44,14 +48,14 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' });
                 <div class="flex-1 min-w-0 ms-4">
                     <p class="text-sm font-medium text-gray-900 truncate dark:text-white font-mono">
                         <Icon :type="type" :data="index" class="inline-block mr-1" />
-                        <span><router-link :to="`/websites/data/${id}?${type}=${encodeURIComponent(index)}`">
+                        <span><NuxtLink :to="`/websites/data/${id}?${type}=${encodeURIComponent(index)}&range=${range || ''}`">
                             <span v-if="type == 'screen'">{{ index.replace(',', 'x') }}</span>
                             <span v-else-if="type == 'referrer' && (index == '' || index == 'undefined')">[None]</span>
                             <span v-else-if="type == 'language'">{{ languageNames[index] }}</span>
                             <span v-else-if="type == 'country_code'">{{ countryNames[index] || index }}</span>
                             <span v-else-if="type == 'device'">{{ index.slice(0, 1).toUpperCase() + index.slice(1).toLowerCase() }}</span>
                             <span v-else>{{ index }}</span>
-                        </router-link></span>
+                        </NuxtLink></span>
                     </p>
                 </div>
                 <div class="inline-flex items-center text-base text-gray-900 dark:text-white me-4 font-mono">

@@ -243,48 +243,48 @@ onUnmounted(() => {
                 </div>
                 <div class="sasanqua-item-card mt-4">
                     <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
-                    <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url"
+                    <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" :range="rangeValue" type="url"
                         v-if="detailsData.url" />
                 </div>
                 <div class="grid sm:grid-cols-2 gap-4 mt-4 max-w-full w-full overflow-hidden">
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
-                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title"
+                        <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" :range="rangeValue" type="title"
                             v-if="detailsData.title" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
-                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query"
+                        <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" :range="rangeValue" type="query"
                             v-if="detailsData.query" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
-                        <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer"
+                        <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" :range="rangeValue" type="referrer"
                             v-if="detailsData.referrer" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
-                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" type="country_code"
+                        <ListData :data="detailsData.country" :count="detailsData.visit" :id="id" :range="rangeValue" type="country_code"
                             v-if="detailsData.country" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
-                        <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" type="language"
+                        <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" :range="rangeValue" type="language"
                             v-if="detailsData.language" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Browsers</p>
-                        <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" type="browser"
+                        <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" :range="rangeValue" type="browser"
                             v-if="detailsData.browser" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">OS</p>
-                        <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" type="os"
+                        <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" :range="rangeValue" type="os"
                             v-if="detailsData.os" />
                     </div>
                     <div class="sasanqua-item-card">
                         <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Devices</p>
-                        <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device"
+                        <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" :range="rangeValue" type="device"
                             v-if="detailsData.device" />
                     </div>
 
@@ -301,12 +301,5 @@ onUnmounted(() => {
 }
 .CardNumberTitle {
     @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center opacity-80;
-}
-</style>
-<style>
-
-
-.sasanqua-item-card {
-    @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
 }
 </style>

@@ -16,6 +16,15 @@ const rangeValue = ref(1 * 24 * 60 * 60 * 1000)
 const timestamp = new Date().getTime()
 const fromToday = timestamp - 86400000
 
+if (route.query.range) {
+    try {
+        rangeValue.value = parseInt(route.query.range)
+        console.log(rangeValue.value)
+    } catch (e) {
+        rangeValue.value = 1 * 24 * 60 * 60 * 1000
+    }
+}
+
 
 interface DetailsData {
     visit: number,
@@ -34,6 +43,7 @@ interface DetailsData {
 }
 
 const detailsData = ref(<DetailsData>{})
+const rawData = ref(<DetailsData>{})
 
 const getDataQueryParams = () => {
     const query = route.query
@@ -59,7 +69,7 @@ setTimeout(() => {
             router.push('/signin')
         }
     })
-    fetch(`/api/data/results?id=${id}&from=${fromToday}&to=${timestamp}&query=data`, {
+    fetch(`/api/data/results?id=${id}&from=${timestamp - rangeValue.value}&to=${timestamp}&query=data`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -68,6 +78,7 @@ setTimeout(() => {
     }).then(res => res.json()).then(res => {
         if (res.code == 200) {
             detailsData.value = getFilteredData(res.data, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
+            rawData.value = getFilteredData(res.data, [], new Date().getTime() - rangeValue.value, new Date().getTime())
         }
     })
 }, 100)
@@ -103,6 +114,9 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 const filter = ref([])
 
 for (let i in filterQuery) {
+    if (i == 'range') {
+        continue
+    }
     filter.value.push({
         type: "and",
         value: [
@@ -128,6 +142,7 @@ const changeRange = (e) => {
     }).then(res => res.json()).then(res => {
         if (res.code == 200) {
             detailsData.value = getFilteredData(res.data, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
+            rawData.value = getFilteredData(res.data, [], new Date().getTime() - rangeValue.value, new Date().getTime())
         }
     })
 }
@@ -207,11 +222,11 @@ const addRule = (type, index) => {
 
 const updateData = () => {
     // close tab
-    if (filter.value.length == 0) {
+    if (filter.value.length == 0 && selectedKey.value && selectedValue.value && selectedIsNot.value) {
         addRule('and')
     }
     toggleFilterModal()
-    detailsData.value = getFilteredData(detailsData.value, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
+    detailsData.value = getFilteredData(rawData.value, filter.value, new Date().getTime() - rangeValue.value, new Date().getTime())
 }
 
 
@@ -455,17 +470,5 @@ const updateData = () => {
 .CardNumberTitle {
     @apply text-gray-900 dark:text-white mb-3 font-bold flex items-center;
     flex-direction: column;
-}
-</style>
-<style>
-.sasanqua-item-card {
-    @apply bg-white border border-gray-200 rounded-lg px-6 py-4 dark:bg-gray-800 dark:border-gray-700 max-w-full overflow-hidden;
-}
-
-.inline-select {
-    @apply inline-block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mx-2;
-}
-.filter-action {
-    @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mx-2;
 }
 </style>
