@@ -4,7 +4,7 @@ import type { CollectedSiteData, CollectData, EditSiteData, GeoIp, UaData } from
 
 export default eventHandler(async (event) => {
     const data = await readBody(event)
-    const payload: CollectData = data.payload
+    const rawPayload: CollectData = data.payload
     const id: string = data.id
     const req = event.node.req
 
@@ -14,6 +14,16 @@ export default eventHandler(async (event) => {
     const userAgent = getHeader(event, 'user-agent')
     const uid: string = getHeader(event, 'x-sasanqua-id')
 
+
+    // rewrite / check data
+
+    const payload = processData(rawPayload)
+    if (!payload) {
+        return {
+            code: 400,
+            error: 'invalid payload'
+        }
+    }
 
     // init storage
     const storage = useStorage('sasanqua')
@@ -39,19 +49,8 @@ export default eventHandler(async (event) => {
     const uniqueId = (isUuid(uid) ? uid : uuid()) || uuid()
 
     // rewrite data
-    try {
-        payload.data.referrer = new URL(payload.data.referrer).hostname
-    } catch(e) {
-        payload.data.referrer = ""
-    }
 
-    try {
-        <object>payload.data.query = Object.fromEntries(new URLSearchParams(<string>payload.data.query))
-    } catch(e) {
-        payload.data.query = {}
-    }
-
-
+    
     const thisData = {
         data: payload,
         geo: geoip,
