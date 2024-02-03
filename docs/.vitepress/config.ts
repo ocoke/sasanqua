@@ -13,12 +13,32 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'General',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Getting Started', link: '/guide/get-started' },
+          { text: 'Reference API', link: '/api' }
         ]
-      }
+      },
+      {
+        text: 'Usage',
+        items: [
+          { text: 'Users', link: '/guide/usage/users' },
+          { text: 'Add Websites', link: '/guide/usage/sites' },
+          { text: 'Dashboard', link: '/guide/usage/dashboard' },
+          { text: 'Settings', link: '/guide/usage/settings' },
+          {
+            text: 'Clients & Plugins',
+            link: '/guide/clients/',
+          },
+        ]
+      },
+      {
+        text: 'Deployment',
+        items: [
+          { text: 'Supported Providers', link: '/guide/deploy/providers' },
+          { text: 'Vercel & Vercel KV', link: '/guide/deploy/vercel-and-vercel-kv' }
+        ]
+      },
     ],
 
     socialLinks: [
