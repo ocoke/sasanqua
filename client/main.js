@@ -118,7 +118,6 @@ window.addEventListener('locationchange', () => {
     if (location.href != window.sa_lst_page) {
         clearInterval(window.sa_vti)
         clearInterval(window.sa_mt)
-        metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID, localStorage.getItem('sasanqua_uid'))
         collect(serverUrl, collectData, siteId)
         window.SASANQUA_PAGE_SID = null
         if (enableVisitingTime) {
@@ -126,20 +125,27 @@ window.addEventListener('locationchange', () => {
                 ping(serverUrl, siteId)
             }, 1000 * 20)
         }
-        window.sa_mt = setInterval(() => {
-            let raw = window.last_upload_metrics
-            let changed = false
-            for (let i in SpeedData) {
-                if (raw[i] != SpeedData[i]) {
-                    changed = true
-                    break
+        if (enableSpeed) {
+            reportWebVitals((data) => {
+                SpeedData[data.name] = Number((data.value).toFixed(4))
+            })
+            window.last_upload_metrics = {}
+            window.sa_mt = setInterval(() => {
+                let raw = window.last_upload_metrics
+                let changed = false
+                for (let i in SpeedData) {
+                    if (raw[i] != SpeedData[i]) {
+                        changed = true
+                        break
+                    }
                 }
-            }
-            if (changed) {
-                window.last_upload_metrics = SpeedData
-                metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID)
-            }
-        }, 1000 * 15)
+                if (changed) {
+                    window.last_upload_metrics = SpeedData
+                    metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID)
+                }
+            }, 1000 * 15)
+        }
+        
         window.sa_lst_page = location.href
     }
 })
