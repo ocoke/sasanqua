@@ -856,6 +856,11 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
+"@netlify/blobs@^6.4.2":
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/@netlify/blobs/-/blobs-6.4.2.tgz#e0f0e74bbf44055ddb79a50a438b339084c9302e"
+  integrity sha512-MccXfC/b8vRr5FWJTvMN7L3aBgtrbhNLWQsSu802C/R2Gmlb5C9/OC0IY4i0+BEZ8rS+F4TU/8NQsVlqHHVESQ==
+
 "@netlify/functions@^2.4.0":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@netlify/functions/-/functions-2.5.1.tgz#a3c111979cf14654267de8a2384348a066481b4e"

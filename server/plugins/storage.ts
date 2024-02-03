@@ -6,9 +6,9 @@ import httpDriver from "unstorage/drivers/http"
 import fsDriver from "unstorage/drivers/fs"
 import githubDriver from "unstorage/drivers/github"
 import memoryDriver from "unstorage/drivers/memory"
+import netlifyBlobsDriver from "unstorage/drivers/netlify-blobs"
 // Vercel KV
 import vercelKVDriver from "unstorage/drivers/vercel-kv"
-// import mongodbDriver from "unstorage/drivers/mongodb"
 
 const dbType = process.env.DATABASE_NAME || "memory"
 const _env = process.env.DATABASE_CONFIG || "{}"
@@ -57,6 +57,9 @@ export default defineNitroPlugin(() => {
 			break
 		case "vercel-kv":
 			driver = vercelKVDriver(dbConfObj)
+			break
+		case "netlify-blobs":
+			driver = netlifyBlobsDriver(dbConfObj)
 			break
 		default:
 			driver = memoryDriver(dbConfObj)
