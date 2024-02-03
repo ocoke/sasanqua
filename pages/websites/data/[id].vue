@@ -83,7 +83,7 @@ setTimeout(() => {
     })
 }, 100)
 
-const convertTime = (s) => {
+const convertTime = (s: number) => {
     // input: seconds
     // output: m mins s secs
     const h = Math.floor(s / 3600)
