@@ -3,6 +3,7 @@ import { collect } from "./utils/collect"
 import { ping } from "./utils/ping"
 import { reportWebVitals } from "./utils/speed"
 import { metrics } from "./utils/metrics"
+import { version } from "../package.json" 
 const getAttr = (id) => {
     return document.currentScript.getAttribute(id)
 }
@@ -81,8 +82,77 @@ document.addEventListener('visibilitychange', function () {
         clearInterval(window.sa_vti)
     } else {
         // user back to the page
-        window.sa_vti = setInterval(() => {
-            ping(serverUrl, siteId)
-        }, 1000 * 20)
+        if (enableVisitingTime) {
+            window.sa_vti = setInterval(() => {
+                ping(serverUrl, siteId)
+            }, 1000 * 20)
+        }
     }
 });
+
+(() => {
+    let oldPushState = history.pushState;
+    history.pushState = function pushState() {
+        let ret = oldPushState.apply(this, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    };
+
+    let oldReplaceState = history.replaceState;
+    history.replaceState = function replaceState() {
+        let ret = oldReplaceState.apply(this, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    };
+
+    window.addEventListener('popstate', () => {
+        window.dispatchEvent(new Event('locationchange'));
+    });
+})();
+
+window.sa_lst_page = location.href
+
+window.addEventListener('locationchange', () => {
+    if (location.href != window.sa_lst_page) {
+        clearInterval(window.sa_vti)
+        clearInterval(window.sa_mt)
+        metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID, localStorage.getItem('sasanqua_uid'))
+        collect(serverUrl, collectData, siteId)
+        window.SASANQUA_PAGE_SID = null
+        if (enableVisitingTime) {
+            window.sa_vti = setInterval(() => {
+                ping(serverUrl, siteId)
+            }, 1000 * 20)
+        }
+        window.sa_mt = setInterval(() => {
+            let raw = window.last_upload_metrics
+            let changed = false
+            for (let i in SpeedData) {
+                if (raw[i] != SpeedData[i]) {
+                    changed = true
+                    break
+                }
+            }
+            if (changed) {
+                window.last_upload_metrics = SpeedData
+                metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID)
+            }
+        }, 1000 * 15)
+        window.sa_lst_page = location.href
+    }
+})
+
+window.$sasanqua = {
+    version,
+    collect: (data) => {
+        collect(serverUrl, data, siteId)
+    },
+    metrics: (data) => {
+        metrics(serverUrl, data, siteId, window.SASANQUA_PAGE_SID)
+    },
+    ping: () => {
+        ping(serverUrl, siteId)
+    },
+}
