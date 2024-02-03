@@ -1,0 +1,5 @@
+[template.environment]
+  DATABASE_NAME = "The database provider, ('netlify-blobs')."
+  DATABASE_CONFIG = "The settings of the database, in JSON format ('{}')"
+[[build]]
+command = yarn build
