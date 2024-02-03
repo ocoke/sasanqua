@@ -4,7 +4,7 @@ export default eventHandler(async (event) => {
     // get uid from request headers
     // const uid = getHeader(event, 'x-sasanqua-id')
     // get site id from request body
-    const { id, sid, uid, payload } = await readBody(event)
+    const { id, sid, uid, payload: rawPayload } = await readBody(event)
     // check if id is valid
     if (!id || !isUuid(id) || !sid || !isUuid(sid) || !uid || !isUuid(uid)) {
         return {
@@ -12,6 +12,16 @@ export default eventHandler(async (event) => {
             error: 'invalid id',
         }
     }
+
+
+    const payload = processMetrics(rawPayload)
+    if (!payload) {
+        return {
+            code: 400,
+            error: 'invalid payload'
+        }
+    }
+
     // init storage
     const storage = useStorage('sasanqua')
     // get site data

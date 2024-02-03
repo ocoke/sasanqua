@@ -26,9 +26,17 @@ interface CollectData {
         LCP: number,
         CLS: number,
         FID: number,
-        INP: number,
         score: number,
     }
+}
+
+interface SpeedType {
+    FCP: number,
+    TTFB: number,
+    LCP: number,
+    CLS: number,
+    FID: number,
+    score: number,
 }
 interface GeoIp {
     country: string,
@@ -102,4 +110,5 @@ export type {
     userJWT,
     userData,
     ListData,
+    SpeedType,
 }
