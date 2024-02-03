@@ -1,5 +1,6 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser';
+import json from '@rollup/plugin-json';
 export default {
 	input: 'client/main.js',
 	output: {
@@ -8,5 +9,5 @@ export default {
         compact: true,
 		plugins: [terser()],
 	},
-    plugins: [nodeResolve()],
+    plugins: [nodeResolve(), json()],
 };
