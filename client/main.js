@@ -3,7 +3,7 @@ import { collect } from "./utils/collect"
 import { ping } from "./utils/ping"
 import { reportWebVitals } from "./utils/speed"
 import { metrics } from "./utils/metrics"
-import { version } from "../package.json" 
+import { version } from "../package.json"
 const getAttr = (id) => {
     return document.currentScript.getAttribute(id)
 }
@@ -118,7 +118,10 @@ window.addEventListener('locationchange', () => {
     if (location.href != window.sa_lst_page) {
         clearInterval(window.sa_vti)
         clearInterval(window.sa_mt)
-        collect(serverUrl, collectData, siteId)
+        collect(serverUrl, {
+            data: getData(),
+            speed: {}
+        }, siteId)
         window.SASANQUA_PAGE_SID = null
         if (enableVisitingTime) {
             window.sa_vti = setInterval(() => {
@@ -145,7 +148,7 @@ window.addEventListener('locationchange', () => {
                 }
             }, 1000 * 15)
         }
-        
+
         window.sa_lst_page = location.href
     }
 })
@@ -157,6 +160,9 @@ window.$sasanqua = {
     },
     metrics: (data) => {
         metrics(serverUrl, data, siteId, window.SASANQUA_PAGE_SID)
+    },
+    getData: () => {
+        return getData()
     },
     ping: () => {
         ping(serverUrl, siteId)
