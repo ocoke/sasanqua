@@ -857,9 +857,9 @@
     tar "^6.1.11"
 
 "@netlify/blobs@^6.4.2":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@netlify/blobs/-/blobs-6.4.2.tgz#e0f0e74bbf44055ddb79a50a438b339084c9302e"
-  integrity sha512-MccXfC/b8vRr5FWJTvMN7L3aBgtrbhNLWQsSu802C/R2Gmlb5C9/OC0IY4i0+BEZ8rS+F4TU/8NQsVlqHHVESQ==
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@netlify/blobs/-/blobs-6.5.0.tgz#8a5a2119e09c551b97418a14cc834a9d56ec73ec"
+  integrity sha512-wRFlNnL/Qv3WNLZd3OT/YYqF1zb6iPSo8T31sl9ccL1ahBxW1fBqKgF4b1XL7Z+6mRIkatvcsVPkWBcO+oJMNA==
 
 "@netlify/functions@^2.4.0":
   version "2.5.1"
