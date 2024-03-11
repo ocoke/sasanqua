@@ -27,7 +27,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@netlify/blobs": "^6.4.2",
+    "@netlify/blobs": "^7.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
