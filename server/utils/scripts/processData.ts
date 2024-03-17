@@ -32,7 +32,7 @@ export const processData = (data: CollectData) => {
                 break
             case 'title':
                 try {
-                    data.data.title = val.substring(100)
+                    data.data.title = val.substring(0, 100)
                 } catch(e) {
                     return false;
                 }
