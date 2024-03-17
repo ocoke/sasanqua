@@ -21,22 +21,22 @@ interface CollectData {
         query: object,
     },
     speed: {
-        FCP: number,
-        TTFB: number,
-        LCP: number,
-        CLS: number,
-        INP: number,
-        score: number,
+        FCP: number | null,
+        TTFB: number | null,
+        LCP: number | null,
+        CLS: number | null,
+        INP: number | null,
+        score: number | null,
     }
 }
 
 interface SpeedType {
-    FCP: number,
-    TTFB: number,
-    LCP: number,
-    CLS: number,
-    INP: number,
-    score: number,
+    FCP: number | null,
+    TTFB: number | null,
+    LCP: number | null,
+    CLS: number | null,
+    INP: number | null,
+    score: number | null,
 }
 interface GeoIp {
     country: string,

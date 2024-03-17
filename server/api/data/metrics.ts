@@ -59,10 +59,12 @@ export default eventHandler(async (event) => {
     }
     // update data
     for(const key in payload) {
-        data.data.speed[key] = payload[key]
+        data.data.speed[key as keyof SpeedType] = payload[key as keyof SpeedType];
     }
+    data.data.speed['score'] = calcScore(data.data.speed) || null;
+    console.log(data.data.speed)
     // save data
-    await storage.setItem("data:" + id, siteResult)
+    await storage.setItem("data:" + id, siteResult);
     // return result
     return {
         code: 200,

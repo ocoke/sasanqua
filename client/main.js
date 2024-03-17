@@ -38,26 +38,24 @@ setTimeout(() => {
     collect(serverUrl, collectData, siteId)
 }, 200)
 
+const changeUpdateMetrics = () => {
+    let raw = window.last_upload_metrics
+    for (let i in SpeedData) {
+        if (raw[i] != SpeedData[i]) {
+            metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID)
+            window.last_upload_metrics = JSON.parse(JSON.stringify(SpeedData))
+            console.log(SpeedData, last_upload_metrics)
+            break
+        }
+    }
+}
 if (enableSpeed) {
     // get speed insights
     reportWebVitals((data) => {
         SpeedData[data.name] = Number((data.value).toFixed(4))
     })
     window.last_upload_metrics = {}
-    window.sa_mt = setInterval(() => {
-        let raw = window.last_upload_metrics
-        let changed = false
-        for (let i in SpeedData) {
-            if (raw[i] != SpeedData[i]) {
-                changed = true
-                break
-            }
-        }
-        if (changed) {
-            window.last_upload_metrics = SpeedData
-            metrics(serverUrl, SpeedData, siteId, window.SASANQUA_PAGE_SID)
-        }
-    }, 1000 * 15)
+    window.sa_mt = setInterval(changeUpdateMetrics, 1000 * 15)
 }
 
 
@@ -80,12 +78,16 @@ document.addEventListener('visibilitychange', function () {
     if (document.visibilityState == 'hidden') {
         // user hide the page
         clearInterval(window.sa_vti)
+        changeUpdateMetrics()
     } else {
         // user back to the page
         if (enableVisitingTime) {
             window.sa_vti = setInterval(() => {
                 ping(serverUrl, siteId)
             }, 1000 * 20)
+        }
+        if (enableSpeed) {
+            changeUpdateMetrics()
         }
     }
 });

@@ -12,7 +12,7 @@ const speedClass = ref(
         fcp: 'text-gray-900',
         lcp: 'text-gray-900',
         cls: 'text-gray-900',
-        fid: 'text-gray-900',
+        inp: 'text-gray-900',
         ttfb: 'text-gray-900',
     }
 )
@@ -49,10 +49,10 @@ const formatSpeed = (num: number, type: string) => {
                     speedClass.value[type] = 'text-red-500'
                 }
                 break
-            case 'fid':
-                if (num <= 100) {
+            case 'inp':
+                if (num <= 200) {
                     speedClass.value[type] = 'text-green-500'
-                } else if (num <= 300) {
+                } else if (num <= 500) {
                     speedClass.value[type] = 'text-yellow-500'
                 } else {
                     speedClass.value[type] = 'text-red-500'
@@ -67,13 +67,22 @@ const formatSpeed = (num: number, type: string) => {
                     speedClass.value[type] = 'text-red-500'
                 }
                 break
+            case 'res':
+                if (num >= 90) {
+                    speedClass.value[type] = 'text-green-500'
+                } else if (num >= 50) {
+                    speedClass.value[type] = 'text-yellow-500'
+                } else {
+                    speedClass.value[type] = 'text-red-500'
+                }
+                break
         }
     }
     return formatter.format(num)
 }
 </script>
 <template>
-    <div class="grid grid-cols-2 gap-2 mt-8" v-if="data.res || data.fcp || data.lcp || data.cls || data.fid || data.ttfb">
+    <div class="grid grid-cols-2 gap-2 mt-8" v-if="data.res || data.fcp || data.lcp || data.cls || data.inp || data.ttfb">
         <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.res">{{ formatSpeed(data.res, 'res') }}</span>
             Real Experience Score</div>
         <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.fcp">{{ formatSpeed(data.fcp / 1000, 'fcp')  }}s</span>
@@ -82,8 +91,8 @@ const formatSpeed = (num: number, type: string) => {
             Largest Contentful Paint</div>
         <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.cls">{{ formatSpeed(data.cls, 'cls') }}</span>
             Cumulative Layout Shift</div> 
-        <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.fid">{{ formatSpeed(data.fid, 'fid') }}<span class="mr-1"></span>ms</span>
-            First Input Delay</div>
+        <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.inp">{{ formatSpeed(data.inp, 'inp') }}<span class="mr-1"></span>ms</span>
+            Interaction to Next Paint</div>
         <div class="CardNumberTitle"><span :class="'CardNumber ' + speedClass.ttfb">{{ formatSpeed(data.ttfb / 1000, 'ttfb') }}s</span>
             Time to First Byte</div>
     </div>

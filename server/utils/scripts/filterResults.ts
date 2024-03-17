@@ -63,11 +63,16 @@ export const getDataResults = (filteredData, query: string, from, to) => {
     }
 
     if (queries.includes('visit_time')) {
+        let totalC = 0
         const averageVisitTime = filteredData.reduce((acc, item) => {
+            if (item.visitTime == item.date || !item.visitTime) {
+                return acc
+            }
             const visitTime = item.visitTime - item.date;
+            totalC += 1
             return acc + visitTime;
 
-        }, 0) / filteredData.length;
+        }, 0) / totalC;
 
         response['visit_time'] = averageVisitTime / 1000
     }
@@ -216,6 +221,7 @@ export const getDataResults = (filteredData, query: string, from, to) => {
     // speed insights
 
     if (queries.includes('fcp')) {
+        let totalC = 0
         // average fcp
         const averageFCP = filteredData.reduce((acc, item) => {
             if (!item.data || !item.data.speed) {
@@ -225,14 +231,16 @@ export const getDataResults = (filteredData, query: string, from, to) => {
             if (!fcp) {
                 return acc;
             }
+            totalC += 1
             return acc + fcp;
 
-        }, 0) / filteredData.length;
+        }, 0) / totalC;
         response['fcp'] = averageFCP
     }
      
     // lcp
     if (queries.includes('lcp')) {
+        let totalC = 0
         // average lcp
         const averageLCP = filteredData.reduce((acc, item) => {
             if (!item.data || !item.data.speed) {
@@ -242,14 +250,16 @@ export const getDataResults = (filteredData, query: string, from, to) => {
             if (!lcp) {
                 return acc;
             }
+            totalC += 1
             return acc + lcp;
 
-        }, 0) / filteredData.length;
+        }, 0) / totalC;
         response['lcp'] = averageLCP
     }
 
     // ttfb
     if (queries.includes('ttfb')) {
+        let totalC = 0
         // average ttfb
         const averageTTFB = filteredData.reduce((acc, item) => {
             if (!item.data || !item.data.speed) {
@@ -259,47 +269,67 @@ export const getDataResults = (filteredData, query: string, from, to) => {
             if (!ttfb) {
                 return acc;
             }
+            totalC += 1
             return acc + ttfb;
 
-        }, 0) / filteredData.length;
+        }, 0) / totalC;
         response['ttfb'] = averageTTFB
     }
 
     // cls
     if (queries.includes('cls')) {
-        
+        let totalC = 0
         // average cls
         const averageCLS = filteredData.reduce((acc, item) => {
             if (!item.data || !item.data.speed) {
                 return acc;
             }
             const cls = item.data.speed.CLS;
-            if (!cls) {
+            if (cls == null) {
                 return acc;
             }
+            totalC += 1
             return acc + cls;
-        }, 0) / filteredData.length;
+        }, 0) / totalC;
         response['cls'] = averageCLS
     }
 
-    // fid
-    if (queries.includes('fid')) {
-        // average fid
-        const averageFID = filteredData.reduce((acc, item) => {
+    // inp
+    if (queries.includes('inp')) {
+        let totalC = 0
+        // average INP
+        const averageINP = filteredData.reduce((acc, item) => {
             if (!item.data || !item.data.speed) {
                 return acc;
             }
-            const fid = item.data.speed.FID;
-            if (!fid) {
+            const inp = item.data.speed.INP;
+            if (!inp) {
                 return acc;
             }
-            return acc + fid;
+            totalC += 1
+            return acc + inp;
 
-        }, 0) / filteredData.length;
-        response['fid'] = averageFID
+        }, 0) / totalC;
+        response['inp'] = averageINP
     }
 
-    
+    if (queries.includes('res')) {
+        // average real experience score
+        let totalC = 0
+        const averageScore = filteredData.reduce((acc, item) => {
+            if (!item.data || !item.data.speed) {
+                return acc;
+            }
+            const score = item.data.speed.score;
+            if (!score) {
+                return acc;
+            }
+            totalC += 1
+            return acc + score;
+
+        }, 0) / totalC;
+        response['res'] = averageScore
+    }
 
 
     return response
@@ -369,7 +399,7 @@ export const getFilteredData = (resp: object, filter, from, to) => {
 
     data = {
         data,
-        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query,fcp,lcp,ttfb,cls,fid', from, to)
+        ...getDataResults(data, 'visit,visitor,data,language,screen,visit_time,country,referrer,url,browser,os,device,chart,title,query,fcp,lcp,ttfb,cls,inp,res', from, to)
     }
     return data
 }
