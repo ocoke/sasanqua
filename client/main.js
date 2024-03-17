@@ -28,7 +28,7 @@ const SpeedData = {
     LCP: null,
     TTFB: null,
     CLS: null,
-    FID: null,
+    INP: null,
 }
 
 // send data

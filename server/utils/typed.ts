@@ -25,7 +25,7 @@ interface CollectData {
         TTFB: number,
         LCP: number,
         CLS: number,
-        FID: number,
+        INP: number,
         score: number,
     }
 }
@@ -35,7 +35,7 @@ interface SpeedType {
     TTFB: number,
     LCP: number,
     CLS: number,
-    FID: number,
+    INP: number,
     score: number,
 }
 interface GeoIp {
