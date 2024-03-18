@@ -1,64 +1,64 @@
 export default {
   home: {
-    gotodashboard: 'Go to Dashboard'
+    gotodashboard: "Ir al panel de control"
   },
   signin: {
-    signinto: 'Sign in to',
-    username: 'Username',
-    password: 'Password',
-    noaccount: 'Didn\'t have an account? Sign up.',
-    signin: 'Sign in'
+    signinto: "Iniciar sesión en",
+    username: "Nombre de usuario",
+    password: "Contraseña",
+    noaccount: "¿No tenías una cuenta? Únete.",
+    signin: "Inicia sesión"
   },
   dashboard: {
-    dashboard: 'Dashboard',
-    viewall: 'View All',
-    viewdetails: 'View Details',
-    about: 'About'
+    dashboard: "Salpicadero",
+    viewall: "Ver todo",
+    viewdetails: "Ver detalles",
+    about: "Acerca de"
   },
   settings: {
-    settings: 'Settings'
+    settings: "Configuración"
   },
   websites: {
-    websites: 'Websites',
-    add: 'Add Website'
+    websites: "Sitios web",
+    add: "Agregar sitio web"
   },
   website: {
-    views: 'Views',
-    visitors: 'Visitors',
-    avgtime: 'Avg Visit Time',
-    today: 'Today',
-    thisweek: 'This Week',
-    data: 'Data',
-    charts: 'Charts',
-    pages: 'Pages',
-    titles: 'Titles',
-    queries: 'Queries',
-    referrers: 'Referrers',
-    countries: 'Countries',
-    languages: 'Languages',
-    browsers: 'Browsers',
-    os: 'OS',
-    devices: 'Devices',
-    edit: 'Edit',
-    currentVisitors: 'current visitors',
-    range: 'Range',
+    views: "Vistas",
+    visitors: "Visitantes",
+    avgtime: "Tiempo medio de visita",
+    today: "Hoy",
+    thisweek: "Esta semana",
+    data: "Datos",
+    charts: "Tablas",
+    pages: "Páginas",
+    titles: "Títulos",
+    queries: "Consultas",
+    referrers: "Referentes",
+    countries: "Países",
+    languages: "Idiomas",
+    browsers: "Navegadores",
+    os: "Sistema operativo",
+    devices: "Dispositivos",
+    edit: "Editar",
+    currentVisitors: "Visitantes actuales",
+    range: "Gama",
     timeRange: {
-      last24h: 'Last 24 Hours',
-      last7: 'Last 7 Days',
-      last30: 'Last 30 Days',
-      last90: 'Last 90 Days',
-      lasty: 'Last Year'
+      last24h: "Últimas 24 horas",
+      last7: "Últimos 7 días",
+      last30: "Últimos 30 días",
+      last90: "Últimos 90 días",
+      lasty: "Año pasado"
     }
   },
   data: {
-    addFilter: 'Add Filter',
-    speedInsights: 'Speed Insights',
-    is: 'is',
-    isNot: 'is not',
-    delete: 'Delete',
-    and: 'And',
-    or: 'Or',
-    save: 'Save'
+    addFilter: "Agregar filtro",
+    speedInsights: "Información sobre la velocidad",
+    is: "es",
+    isNot: "no es",
+    delete: "Borrar",
+    and: "Y",
+    or: "O",
+    save: "Salvar"
   },
   error: {
     error: 'Error'
