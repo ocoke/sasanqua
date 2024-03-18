@@ -246,7 +246,7 @@ const updateData = () => {
             <div class="sasanqua-item-card">
                 <div class="text-xl text-gray-900 dark:text-white font-bold flex items-center">
                     <div class="grid gap-2">
-                        <span>Data</span>
+                        <span>{{ $t('website.data')}}</span>
                         <div class="text-sm font-medium">
                             <div class="mb-2" v-for="i in filter">
                                 
@@ -263,31 +263,31 @@ const updateData = () => {
                         <select v-model="rangeValue" @input="changeRange"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option disabled>Range</option>
-                            <option :value="1 * 24 * 60 * 60 * 1000" selected>Last 24 Hours</option>
-                            <option :value="7 * 24 * 60 * 60 * 1000">Last 7 Days</option>
-                            <option :value="30 * 24 * 60 * 60 * 1000">Last 30 Days</option>
-                            <option :value="90 * 24 * 60 * 60 * 1000">Last 90 Days</option>
-                            <option :value="365 * 24 * 60 * 60 * 1000">Last Year</option>
+                            <option :value="1 * 24 * 60 * 60 * 1000" selected>{{ $t('website.timeRange.last24h')}}</option>
+                            <option :value="7 * 24 * 60 * 60 * 1000">{{ $t('website.timeRange.last7')}}</option>
+                            <option :value="30 * 24 * 60 * 60 * 1000">{{ $t('website.timeRange.last30')}}</option>
+                            <option :value="90 * 24 * 60 * 60 * 1000">{{ $t('website.timeRange.last90')}}</option>
+                            <option :value="365 * 24 * 60 * 60 * 1000">{{ $t('website.timeRange.lasty')}}</option>
                         </select>
                         <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                             @click="toggleFilterModal"
-                        >Add Filter</button>
+                        >{{ $t('data.addFilter') }}</button>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-2 mt-8">
                     <!-- views / visitors / avg visiting time / score -->
                     <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visit) || 0 }}</span>
-                        Views</div>
+                        {{ $t('website.views')}}</div>
                     <div class="CardNumberTitle"><span class="CardNumber">{{ formatter.format(detailsData.visitor) || 0 }}</span>
-                        Visitors</div>
+                        {{ $t('website.visitors')}}</div>
                     <div class="CardNumberTitle"><span class="CardNumber">{{
-                        convertTime(detailsData.visit_time) || 'N/A' }}</span> Avg Visit Time</div>
+                        convertTime(detailsData.visit_time) || 'N/A' }}</span> {{ $t('website.avgtime')}}</div>
                 </div>
             </div>
             <div class="sasanqua-item-card mt-4">
                 <div class="text-xl text-gray-900 dark:text-white font-bold flex items-center">
                     <div class="grid gap-2">
-                        <span>Speed Insights</span>
+                        <span>{{ $t('data.speedInsights')}}s</span>
                     </div>
 
                 </div>
@@ -298,32 +298,32 @@ const updateData = () => {
 
             <div class="grid gap-4 mt-4 max-w-full w-full overflow-hidden">
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Charts</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.charts')}}</p>
                     <BarGraphs :data="detailsData.chart" :id="id" />
                 </div>
 
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Pages</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.pages')}}</p>
                     <ListData :data="detailsData.url" :count="detailsData.visit" :id="id" type="url"
                         v-if="detailsData.url" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Titles</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.titles')}}</p>
                     <ListData :data="detailsData.title" :count="detailsData.visit" :id="id" type="title"
                         v-if="detailsData.title" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Queries</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.queries')}}</p>
                     <ListData :data="detailsData.query" :count="detailsData.visit" :id="id" type="query"
                         v-if="detailsData.query" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Referrers</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.referrers')}}</p>
                     <ListData :data="detailsData.referrer" :count="detailsData.visit" :id="id" type="referrer"
                         v-if="detailsData.referrer" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Countries</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.countries')}}</p>
                     <div class="lg:flex lg:min-h-[400px]">
                         <div class="lg:w-3/5">
                             <WorldMap :data="detailsData.country" :count="detailsData.visit" :id="id" :key="detailsData.country" type="country_code"
@@ -338,26 +338,26 @@ const updateData = () => {
                     </div>
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Languages</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.languages')}}</p>
                     <ListData :data="detailsData.language" :count="detailsData.visit" :id="id" type="language"
                         v-if="detailsData.language" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Browsers</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.browsers')}}</p>
                     <ListData :data="detailsData.browser" :count="detailsData.visit" :id="id" type="browser"
                         v-if="detailsData.browser" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">OS</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.os')}}</p>
                     <ListData :data="detailsData.os" :count="detailsData.visit" :id="id" type="os" v-if="detailsData.os" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Devices</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.devices')}}</p>
                     <ListData :data="detailsData.device" :count="detailsData.visit" :id="id" type="device"
                         v-if="detailsData.device" />
                 </div>
                 <div class="sasanqua-item-card">
-                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">Screens</p>
+                    <p class="text-xl text-gray-900 dark:text-white mb-3 font-bold">{{ $t('website.screens')}}</p>
                     <ListData :data="detailsData.screen" :count="detailsData.visit" :id="id" type="screen"
                         v-if="detailsData.screen" />
                 </div>
@@ -374,7 +374,7 @@ const updateData = () => {
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add Filter
+                    {{$t('data.addFilter')}}
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" @click="toggleFilterModal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -393,7 +393,7 @@ const updateData = () => {
                         </select>
                         <!-- select is/not -->
                         <select class="inline-select w-auto">
-                            <option default>{{ i.type == 'is' ? 'is' : 'is not' }}</option>
+                            <option default>{{ i.type == 'is' ? $t('data.is') : $t('data.isNot') }}</option>
                         </select>
                         <select class="inline-select w-full">
                             <option default>{{ i.value }}</option>
@@ -407,8 +407,8 @@ const updateData = () => {
                         <!-- select is/not -->
                         <select class="inline-select w-auto" v-model="selectedIsNot">
                             <option default></option>
-                            <option>is</option>
-                            <option>is not</option>
+                            <option value="is">{{ $t('data.is') }}</option>
+                            <option value='is not'>{{ $t('data.isNot') }}</option>
                         </select>
                         <select class="inline-select w-full" v-model="selectedValue">
                             <option default></option>
@@ -422,7 +422,7 @@ const updateData = () => {
                                 + {{ item.type.slice(0, 1).toUpperCase() + item.type.slice(1)  }}
                             </button>
                             <button type="button" class="filter-action ml-auto mt-2" @click="deleteRule(itemIndex)">
-                                Delete
+                                {{ $t('data.delete') }}
                             </button>
                         </div>
                     </div>
@@ -435,8 +435,8 @@ const updateData = () => {
                     <!-- select is/not -->
                     <select class="inline-select w-auto" v-model="selectedIsNot">
                         <option default></option>
-                        <option>is</option>
-                        <option>is not</option>
+                        <option value="is">{{ $t('data.is') }}</option>
+                        <option value="is not">{{ $t('data.isNot') }}</option>
                     </select>
                     <select class="inline-select w-full" v-model="selectedValue">
                         <option default></option>
@@ -446,17 +446,17 @@ const updateData = () => {
                 <div>
                     <!-- 2btns: and/or -->
                     <button type="button" class="filter-action" @click="addRule('and')">
-                        + And
+                        + {{ $t('data.and') }}
                     </button>
                     <button type="button" class="filter-action" @click="addRule('or')">
-                        + Or
+                        + {{ $t('data.or') }}
                     </button>
                 </div>
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <button data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-auto"
-                @click="updateData">Save</button>
+                @click="updateData">{{ $t('data.save') }}</button>
             </div>
         </div>
     </div></div>

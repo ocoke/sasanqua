@@ -29,16 +29,16 @@ setTimeout(() => {
 
 <template>
 <div class="w-full max-w-3xl mx-auto">
-        <p class="text-3xl text-gray-900 dark:text-white mb-6 font-bold">Dashboard</p>
+        <p class="text-3xl text-gray-900 dark:text-white mb-6 font-bold">{{ $t('dashboard.dashboard') }}</p>
     </div>
 
 <div class="w-full max-w-3xl mx-auto grid sm:grid-cols-2 gap-4">
     <div class="w-full mx-auto p-4 bg-white border border-gray-200 rounded-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex items-center justify-between mb-4">
-            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Websites</h5>
-            <router-link to="/websites" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                View all
-            </router-link>
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{{ $t('websites.websites')}}</h5>
+            <NuxtLink to="/websites" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                {{ $t('dashboard.viewall') }}
+            </NuxtLink>
         </div>
         <div class="flow-root">
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" v-if="fetchResults.data">
@@ -57,7 +57,7 @@ setTimeout(() => {
                             </div>
                             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" @click="router.push('/websites/' + i.id)">
-                                    View Details
+                                    {{ $t('dashboard.viewdetails') }}
                                 </button>
                             </div>
                         </div>
@@ -83,7 +83,7 @@ setTimeout(() => {
     </div>
     <div class="w-full mx-auto p-4 bg-white border border-gray-200 rounded-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex items-center justify-between mb-4">
-            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">About</h5>
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{{$t('dashboard.about')}}</h5>
         </div>
         <div class="flow-root">
             Sasanqua Analytics v{{ pkg.version }}.

@@ -7,8 +7,43 @@ export default defineNuxtConfig({
         },
     },
     modules: [
-        '@nuxt/test-utils/module'
+        '@nuxt/test-utils/module',
+        '@nuxtjs/i18n',
     ],
+    i18n: {
+        vueI18n: './i18n.config.ts',
+        detectBrowserLanguage: {
+            useCookie: true,
+            cookieKey: 'i18n_redirected',
+            redirectOn: 'root'
+        },
+        locales: [
+            {
+              code: 'en-US',
+              file: 'en-US.ts',
+              name: 'English (US)'
+            },
+            {
+              code: 'es-ES',
+              file: 'es-ES.ts',
+              name: 'Español (España)',
+            },
+            {
+              code: 'fr-FR',
+              file: 'fr-FR.ts',
+              name: 'Français (France)',
+            },
+            {
+                code: 'zh-CN',
+                file: 'zh-CN.ts',
+                name: '中文 (中国)',
+            }
+          ],
+          lazy: true,
+          langDir: 'locales',
+          defaultLocale: 'en-US',
+          strategy: 'no_prefix',
+    },
     app: {
         head: {
             title: "Sasanqua Analytics",
@@ -33,7 +68,7 @@ export default defineNuxtConfig({
                 {
                     rel: "preconnect",
                     href: "https://fonts.gstatic.com",
-                    crossorigin: true,
+                    crossorigin: "anonymous",
                 },
                 {
                     rel: "preconnect",
