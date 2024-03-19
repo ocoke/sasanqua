@@ -30,7 +30,6 @@ export default defineConfig({
         text: 'General',
         items: [
           { text: 'Getting Started', link: '/guide/get-started' },
-          { text: 'Reference API', link: '/api' }
         ]
       },
       {
@@ -51,6 +50,13 @@ export default defineConfig({
         items: [
           { text: 'Supported Providers', link: '/guide/deploy/providers' },
           { text: 'Vercel & Vercel KV', link: '/guide/deploy/vercel-and-vercel-kv' }
+        ]
+      },
+      {
+        text: 'Reference',
+        items: [
+          { text: 'Reference API', link: '/reference/api' },
+          { text: 'Blog', link: '/reference/blog' }
         ]
       },
     ],
